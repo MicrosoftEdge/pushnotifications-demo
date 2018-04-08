@@ -25,7 +25,7 @@ gulp.task('copy:others', () => {
 // Optimizes JS using uglify saving the results into `dist`
 gulp.task('optimize:js', () => {
     return gulp.src(`${dirs.src}/**/*.js`)
-        .pipe(plugins.uglify())
+        //.pipe(plugins.uglify())
         .pipe(gulp.dest(dirs.dist));
 });
 

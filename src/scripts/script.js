@@ -60,10 +60,14 @@ function sendMessage(message) {
 }
 
 document.addEventListener('DOMContentLoaded', e => {
-    // get application public key
-    fetch('./api/key').then(function (res) {
-        res.json().then(data => {
-            registerPush(data.key);
+    if (navigator.serviceWorker) {
+        // get application public key
+        fetch('./api/key').then(function (res) {
+            res.json().then(data => {
+                registerPush(data.key);
+            });
         });
-    });
+    } else {
+        // service worker is not supported, so it won't work!
+    }
 });
