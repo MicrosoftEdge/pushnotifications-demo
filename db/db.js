@@ -1,4 +1,4 @@
-const connectionString = process.env.connectionString || 'YOUR CONNECTION STRING';
+const databaseConnectionURI = process.env.DATABASE_CONNECTION_URI || 'YOUR CONNECTION STRING';
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -18,7 +18,7 @@ const Subscription = mongoose.model('Subscription', SubscriptionSchema);
 
 const connect = async () => {
     try {
-        await mongoose.connect(connectionString);
+        await mongoose.connect(databaseConnectionURI);
     } catch (e) {
 
     }
