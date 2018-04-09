@@ -6,12 +6,12 @@ mongoose.Promise = global.Promise;
 const { Schema } = mongoose;
 
 const SubscriptionSchema = new Schema({
-    endPoint: {
+    endpoint: {
         type: String,
         index: true
     },
-    hash: { type: String },
-    key: { type: String }
+    auth: { type: String },
+    p256dh: { type: String }
 });
 
 const Subscription = mongoose.model('Subscription', SubscriptionSchema);

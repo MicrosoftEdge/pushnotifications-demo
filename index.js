@@ -1,20 +1,25 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const webPush = require('web-push');
 
 const { Subscription } = require('./db/db');
 
 const app = express();
 const port = process.env.PORT || 4000;
-const public = process.env.publickey || 'PUBLIC KEY';
-const private = process.env.privatekey || 'PRIVATE KEY';
-const static = process.env.NODE_ENV === 'production' ? 'dist' : 'src';
-const webpush = require('web-push');
 
-webpush.setVapidDetails(
-    'mailto:email@outlook.com',
-    public,
-    private
-);
+if (!process.env.VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) {
+    console.log("You must set the VAPID_PUBLIC_KEY and VAPID_PRIVATE_KEY " +
+      "environment variables. You can use the following ones:");
+    console.log(webPush.generateVAPIDKeys());
+} else {
+    webPush.setVapidDetails(
+        'mailto:email@outlook.com',
+        process.env.VAPID_PUBLIC_KEY,
+        process.env.VAPID_PRIVATE_KEY
+    );
+}
+
+const static = process.env.NODE_ENV === 'production' ? 'dist' : 'src';
 
 // Express configuration
 app.disable('x-powered-by');
@@ -23,16 +28,22 @@ app.use(express.static(static));
 app.use(bodyParser.json()); 
 
 app.get('/api/key', (req, res) => {
-    res.send({
-        key: public
-    });
+    if (process.env.VAPID_PUBLIC_KEY) {
+        res.send({
+            key: process.env.VAPID_PUBLIC_KEY
+        });
+    } else {
+        res.status(500).send({
+            key: 'VAPID KEYS ARE NOT SET'
+        });
+    }
 });
 
 app.post('/api/subscribe', async (req, res) => {
     try {
-        // Find if user is already subscribed searching by `endPoint`
+        // Find if user is already subscribed searching by `endpoint`
         const { key, userId } = req.body;
-        const exists = await Subscription.findOne({ endPoint: 'endPoint' });
+        const exists = await Subscription.findOne({ endpoint: 'endpoint' });
 
         if (exists) {
             // Maybe refresh the subscription info?
@@ -42,9 +53,9 @@ app.post('/api/subscribe', async (req, res) => {
         }
 
         const subscription = new Subscription({
-            subscription: '',
-            hash: '',
-            key: ''
+            endpoint: '',
+            auth: '',
+            p256dh: ''
         });
 
         await subscription.save();
@@ -61,7 +72,7 @@ app.post('/api/notify', async (req, res) => {
     try {
         const data = req.body;
         
-        await webpush.sendNotification(data.subscription, data.payload, { contentEncoding: data.encoding })
+        await webPush.sendNotification(data.subscription, data.payload, { contentEncoding: data.encoding })
             .then(function (response) {
                 console.log('Response: ' + JSON.stringify(response, null, 4));
                 res.status(201).send(response);
