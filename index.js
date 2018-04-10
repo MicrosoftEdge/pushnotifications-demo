@@ -7,15 +7,18 @@ const { Subscription } = require('./db/db');
 const app = express();
 const port = process.env.PORT || 4000;
 
-if (!process.env.VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) {
+const vapidPublicKey = process.env.VAPID_PUBLIC_KEY || '';
+const vapidPrivateKey = process.env.VAPID_PRIVATE_KEY || '';
+
+if (vapidPublicKey === '' || vapidPrivateKey === '') {
     console.log("You must set the VAPID_PUBLIC_KEY and VAPID_PRIVATE_KEY " +
       "environment variables. You can use the following ones:");
     console.log(webPush.generateVAPIDKeys());
 } else {
     webPush.setVapidDetails(
         'mailto:email@outlook.com',
-        process.env.VAPID_PUBLIC_KEY,
-        process.env.VAPID_PRIVATE_KEY
+        vapidPublicKey,
+        vapidPrivateKey
     );
 }
 
@@ -28,9 +31,9 @@ app.use(express.static(static));
 app.use(bodyParser.json()); 
 
 app.get('/api/key', (req, res) => {
-    if (process.env.VAPID_PUBLIC_KEY) {
+    if (vapidPublicKey !== '') {
         res.send({
-            key: process.env.VAPID_PUBLIC_KEY
+            key: vapidPublicKey
         });
     } else {
         res.status(500).send({
