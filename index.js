@@ -1,26 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const webPush = require('web-push');
+const configuredWebPush = require('./configured-web-push');
 
 const { Subscription } = require('./db/db');
 
 const app = express();
 const port = process.env.PORT || 4000;
-
-const vapidPublicKey = process.env.VAPID_PUBLIC_KEY || '';
-const vapidPrivateKey = process.env.VAPID_PRIVATE_KEY || '';
-
-if (vapidPublicKey === '' || vapidPrivateKey === '') {
-    console.log("You must set the VAPID_PUBLIC_KEY and VAPID_PRIVATE_KEY " +
-      "environment variables. You can use the following ones:");
-    console.log(webPush.generateVAPIDKeys());
-} else {
-    webPush.setVapidDetails(
-        'mailto:email@outlook.com',
-        vapidPublicKey,
-        vapidPrivateKey
-    );
-}
 
 const static = process.env.NODE_ENV === 'production' ? 'dist' : 'src';
 
@@ -31,9 +16,9 @@ app.use(express.static(static));
 app.use(bodyParser.json()); 
 
 app.get('/api/key', (req, res) => {
-    if (vapidPublicKey !== '') {
+    if (configuredWebPush.vapidPublicKey !== '') {
         res.send({
-            key: vapidPublicKey
+            key: configuredWebPush.vapidPublicKey
         });
     } else {
         res.status(500).send({
@@ -44,9 +29,10 @@ app.get('/api/key', (req, res) => {
 
 app.post('/api/subscribe', async (req, res) => {
     try {
+        const subscription = req.body.subscription;
+
         // Find if user is already subscribed searching by `endpoint`
-        const { key, userId } = req.body;
-        const exists = await Subscription.findOne({ endpoint: 'endpoint' });
+        const exists = await Subscription.findOne({ endpoint: subscription.endpoint });
 
         if (exists) {
             // Maybe refresh the subscription info?
@@ -55,15 +41,11 @@ app.post('/api/subscribe', async (req, res) => {
             return;
         }
 
-        const subscription = new Subscription({
-            endpoint: '',
-            auth: '',
-            p256dh: ''
-        });
+        const sub = new Subscription(subscription);
 
-        await subscription.save();
+        await sub.save();
 
-        res.status(200);
+        res.status(200).send('Success');
 
     } catch (e) {
         res.status(500)
@@ -75,7 +57,7 @@ app.post('/api/notify', async (req, res) => {
     try {
         const data = req.body;
         
-        await webPush.sendNotification(data.subscription, data.payload, { contentEncoding: data.encoding })
+        await configuredWebPush.webPush.sendNotification(data.subscription, data.payload, { contentEncoding: data.encoding })
             .then(function (response) {
                 console.log('Response: ' + JSON.stringify(response, null, 4));
                 res.status(201).send(response);

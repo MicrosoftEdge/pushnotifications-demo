@@ -34,7 +34,7 @@ If you are using VS Code you can set them in your `launch.json` file as follows:
 Additionally you can also modify `index.js` and `db/db.js` and set the values there explicitely:
 
 ```js
-const databaseConnectionURI = process.env.DATABASE_CONNECTION_URI || 'YOUR CONNECTION STRING';
+const databaseConnectionURI = process.env.DATABASE_CONNECTION_URI || '';
 const vapidPublicKey = process.env.VAPID_PUBLIC_KEY || '';
 const vapidPrivateKey = process.env.VAPID_PRIVATE_KEY || '';
 ```

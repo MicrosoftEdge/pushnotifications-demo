@@ -15,34 +15,40 @@ function urlB64ToUint8Array(base64String) {
     return outputArray;
 }
 
-function registerPush(appPubkey) {
-    navigator.serviceWorker.register('service-worker.js');
-    navigator.serviceWorker.ready.then(reg =>
-        reg.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlB64ToUint8Array(appPubkey)
+function saveSubscription(subscription) {
+    sub = subscription;
+
+    fetch('./api/subscribe', {
+        method: 'post',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            subscription: subscription
         })
-        .then(subscription => sub = subscription.toJSON())
-    );
+    });
 }
 
-/*
 function registerPush(appPubkey) {
-  navigator.serviceWorker.register('service-worker.js').then(r => {
-    navigator.serviceWorker.ready.then(reg => {
-      reg.pushManager.getSubscription().then(subscription => {
-        return subscription || reg.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: urlB64ToUint8Array(appPubkey)
-        }).then(subscription => subscription);
-      })
+    navigator.serviceWorker.register('service-worker.js');
+    navigator.serviceWorker.ready
+        .then(registration => {
+            return registration.pushManager.getSubscription()
+                .then(subscription => {
+                    if (subscription) {
+                        return subscription;
+                    }
+
+                    return registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: urlB64ToUint8Array(appPubkey)
+                    });
+                })
+        })
         .then(subscription => {
-          sub = subscription.toJSON();
+            saveSubscription(subscription);
         });
-    });
-  });
 }
-*/
 
 function sendMessage(message) {
     const data = {
