@@ -1,0 +1,425 @@
+/*
+ *	PUSH NOTIFICATIONS
+ *	=============================================
+ *	@Dependencies:
+ *	@Note:
+ *	@TODO:
+ */
+
+body {
+	background-color: #fff;
+}
+
+/* DO NOT remove focus altogether, just style to your colors */
+:focus {
+	outline: 1px dotted #000;
+}
+
+::-moz-selection {
+	background: #0078d7;
+	color: #fff;
+}
+
+::selection {
+	background: #0078d7;
+	color: #fff;
+}
+
+a:link, a:visited {
+	color: #0078d7;
+}
+
+a:hover {
+	color: #666;
+}
+
+/*
+ *	FORM ELEMENTS
+ *	---------------------------------------------
+ */
+
+button {
+	padding: .5em .75em;
+	border: 0;
+	border-radius: 0;
+	font: inherit;
+	-webkit-appearance: none;
+	background-color: #a5802a;
+	color: #000;
+}
+
+button:hover,
+button:focus {
+	outline: 2px solid hsla(0, 0%, 0%, .4);
+	outline-offset: 0;
+}
+
+button:hover {
+	cursor: pointer;
+}
+
+button:active {
+	background-color: #999;
+}
+
+/*
+ *	UNIVERSAL DEMO-SPECIFIC STYLES
+ *	=============================================
+ */
+
+h1,
+h2,
+h3,
+.highlight,
+.card--caption {
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	font-weight: normal;
+}
+
+h1,
+h2,
+h3 {
+	text-align: center;
+}
+
+h1 {
+	font-size: 3.4rem;
+	letter-spacing: .1rem;	
+}
+
+h2 {
+	font-size: 2.6rem;
+	font-style: italic;
+	letter-spacing: .1rem;
+}
+
+h3 {
+	font-size: 1.3rem;
+	letter-spacing: .06rem;
+}
+
+/*
+ *	DEMO SECTION STYLES
+ *	=============================================
+ */
+
+/*
+ *	INTRO
+ *	---------------------------------------------
+ */
+
+.intro__section__highlight {
+	text-align: center;
+}
+
+.intro__section__highlight .highlight {
+	margin: 0 auto;
+}
+
+
+/*
+ *	LAYOUT: FLEX
+ *	---------------------------------------------
+ */
+
+ .l-flex--guide,
+ .l-flex--halves,
+ .l-flex--guide--callout {
+	display: flex;
+}
+
+ .l-flex--halves,
+ .l-flex--guide--callout  {
+	flex-wrap: wrap;
+ }
+
+ .l-flex--halves {
+	justify-content: center;
+ }
+
+
+ @media (min-width: 34em) {
+
+	.l-flex--halves,
+	.l-flex--guide--callout  {
+		margin-left: -1.5rem;
+		margin-right: -1.5rem;
+	}
+
+}
+
+/*
+ *	GUIDE
+ *	---------------------------------------------
+ */
+
+.guide-col-main {
+	width: 100%;
+}
+
+.guide-col-side {
+	width: 100%;
+	margin: 0 1.5rem;
+}
+
+/* Use for pullout/highlight */
+.guide-col-main--alt {
+	width: 100%;
+	margin: 0 1.5rem;
+}
+
+.callout-light,
+.callout-dark {
+	position: relative;
+	padding: 1rem;
+	font-size: 1.2rem;
+	text-align: center;
+}
+
+.callout-light {
+	border: 2px solid #9b8e6e;
+}
+
+.callout-dark {
+	border: 2px solid #a5802a;	
+}
+
+.callout-text {
+	order: 1;
+	margin-bottom: 1.5rem;
+ }
+
+.callout-text::before {
+	content: url("../images/moon-detail.svg");
+	display: block;
+	position: absolute;
+	margin: auto;
+	left: 0;
+	right: 0;
+	top: -.8rem;
+	max-width: 4rem;
+}
+
+.callout-img {
+	order: 2;
+}
+
+code {
+	padding: .25em;
+	background: #dbccaa;
+	color: #000;
+}
+
+pre {
+	margin-top: 1.5em;
+	margin-right: auto;
+	max-width: 44rem;
+}
+
+pre code {
+	display: block;
+	padding: 1.25em;
+	tab-size: 3;
+	background: #dbccaa;
+	color: #000;
+}
+
+@media (min-width: 47em) {
+
+	.guide-col-main {
+		max-width: 44rem;
+	}
+
+	.guide-col-main--alt {
+		max-width: 36rem;
+		flex: 1 1 20rem;
+	}
+	
+	.guide-col-side {
+		max-width: 20rem;
+		flex: 1 1 15rem;
+	}
+
+	.callout-text {
+		margin-bottom: 0;
+	}
+}
+
+/*
+ *	COMPONENT: CARDS
+ *	---------------------------------------------
+ */
+
+.card {
+	position: relative;
+	flex: 1 1 20rem;
+	border: 2px solid #a5802a;
+	margin: 1.5rem 0;
+	max-width: 23rem;
+}
+
+.card--right {
+	order: 1;
+}
+
+.card--left {
+	order: 2;
+}
+
+.card--bottom {
+	border-top: 2px solid #a5802a;
+}
+
+.card h3 {
+	position: absolute;
+	max-width: 9rem;
+	margin: auto;
+	left: 0;
+	right: 0;
+	top: -1rem;
+	background: #262626;
+}
+
+.card--illustration {
+	max-width: 15rem;
+	margin: 1rem auto 0 auto;
+}
+
+.card--caption {
+	font-size: .8rem;
+	padding: 1rem;
+	text-align: center;
+}
+
+@media (min-width: 34em) {
+	
+	.card {
+		margin-right: 1.5rem;
+		margin-left: 1.5rem;
+	}
+
+}
+
+
+/*
+ *	UNIVERSAL COMPONENTS
+ *	=============================================
+ */
+
+/*
+ *	COMPONENT: NAV BAR
+ *	---------------------------------------------
+ */
+
+.c-nav-bar {
+	background: #000;
+	color: #ccc;
+}
+
+.c-nav-bar a {
+	color: #fff;
+	border-bottom-color: rgba(255, 255, 255, .66);
+}
+
+/* DO NOT remove focus altogether, just style to your colors */
+.c-nav-bar__breadcrumb a:focus {
+	outline: 1px dotted #fff;
+}
+
+/* Only used in mobile-first design */
+.c-nav-bar__breadcrumb {
+	border-bottom-color: #444;
+}
+
+.c-nav-bar__title {
+	color: #fff;
+}
+
+/* TABLE OF CONTENTS DROPDOWN */
+
+.c-toc__btn {
+	background: #000;
+	color: #fff;
+}
+
+.c-toc__btn:hover,
+.c-toc__btn:focus {
+	background: #222;
+}
+
+.c-toc__btn:active {
+	background: #444;
+}
+
+.c-toc__arrow path {
+	stroke: #fff;
+}
+
+.c-toc__items {
+	background: #444;
+}
+
+.c-toc__item a:hover,
+.c-toc__item a:focus {
+	background: #222;
+}
+
+/*
+ *	COMPONENT: INTRO
+ *	---------------------------------------------
+ */
+
+.c-intro {
+	background: #f9f9f9;
+	text-align: center;
+}
+
+/*
+ *	LAYOUT: "BANNER" SECTIONS
+ *	---------------------------------------------
+ */
+
+.l-section--banner,
+.l-subsection--banner {
+	background: #f2f2f2;
+}
+
+.l-section--banner--dark,
+.l-subsection--banner--dark {
+	background: #262626;
+	color: #fff;
+}
+
+.l-section--banner a:link,
+.l-section--banner a:visited,
+.l-subsection--banner a:link,
+.l-subsection--banner a:visited {
+	color: #0067b8;
+}
+
+/*
+ *	COMPONENT: OUTRO
+ *	---------------------------------------------
+ */
+
+.c-outro a {
+	color: #006fc6;
+}
+
+.c-outro a:hover {
+	color: #555;
+}
+
+a.c-outro__github {
+	background: #0078d7;
+	color: #fff;
+}
+
+a.c-outro__github:hover {
+	background: #006cc2;
+	color: #fff;
+}
+
+a.c-outro__github:active {
+	background: #005497;
+}
