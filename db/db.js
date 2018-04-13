@@ -20,11 +20,11 @@ const SubscriptionSchema = new Schema({
 
 const Subscription = mongoose.model('Subscription', SubscriptionSchema);
 
-const connect = async () => {
+const connect = async function() {
     try {
         await mongoose.connect(databaseConnectionURI);
     } catch (e) {
-
+        console.error('Connection the database failed.');
     }
 }
 

@@ -1,14 +1,14 @@
 'use strict';
 
-self.addEventListener('install', event => {
+self.addEventListener('install', function(event) {
 	self.skipWaiting();
 });
 
-self.addEventListener('activate', event => {
+self.addEventListener('activate', function(event) {
 	event.waitUntil(clients.claim());
 });
 
-self.addEventListener('push', event => {
+self.addEventListener('push', function(event) {
 	event.waitUntil(
 		registration.showNotification('Web Push Test', {
 			body: event.data.text(),
@@ -17,12 +17,12 @@ self.addEventListener('push', event => {
 	);
 });
 
-self.addEventListener('notificationclick', event => {
+self.addEventListener('notificationclick', function(event) {
 	event.notification.close();
 
 	event.waitUntil(
 		clients.matchAll({ type: 'window', includeUncontrolled: true })
-			.then(clientList => {
+			.then(function(clientList) {
 				for (let i = 0; i < clientList.length; i++) {
 					return clientList[i].focus();
 				}

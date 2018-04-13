@@ -13,9 +13,9 @@ const static = process.env.NODE_ENV === 'production' ? 'dist' : 'src';
 app.disable('x-powered-by');
 
 app.use(express.static(static));
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 
-app.get('/api/key', (req, res) => {
+app.get('/api/key', function(req, res) {
     if (configuredWebPush.vapidPublicKey !== '') {
         res.send({
             key: configuredWebPush.vapidPublicKey
@@ -27,7 +27,7 @@ app.get('/api/key', (req, res) => {
     }
 });
 
-app.post('/api/subscribe', async (req, res) => {
+app.post('/api/subscribe', async function(req, res) {
     try {
         const subscription = req.body.subscription;
 
@@ -53,7 +53,7 @@ app.post('/api/subscribe', async (req, res) => {
     }
 });
 
-app.post('/api/notify', async (req, res) => {
+app.post('/api/notify', async function(req, res) {
     try {
         const data = req.body;
         
@@ -72,6 +72,6 @@ app.post('/api/notify', async (req, res) => {
     }
 });
 
-app.listen(port, () => {
+app.listen(port, function() {
     console.log(`Server listening on port ${port}`);
 });
