@@ -70,6 +70,7 @@ button:active {
 h1,
 h2,
 h3,
+button,
 .highlight,
 .card--caption {
 	font-family: Georgia, 'Times New Roman', Times, serif;
@@ -82,21 +83,53 @@ h3 {
 	text-align: center;
 }
 
-h1 {
+h1,
+.h1 {
 	font-size: 3.4rem;
 	letter-spacing: .1rem;	
 }
 
-h2 {
+h2,
+.h2 {
 	font-size: 2.6rem;
 	font-style: italic;
 	letter-spacing: .1rem;
 }
 
-h3 {
+h2::after {
+	content: "";
+	position: relative;
+	display: block;
+	height: .5rem;
+	width: 7rem;
+	border-bottom: 3px solid;
+	text-align: center;
+	margin: .2rem auto;
+}
+
+h3,
+.h3 {
 	font-size: 1.3rem;
 	letter-spacing: .06rem;
 }
+
+.c-nav-bar {
+	z-index: 30;
+}
+
+.highlight {
+	margin-top: 1.2rem;
+}
+
+.btn--action {
+	margin: 2rem auto 1.2rem auto;
+}
+
+/* Only apply dark background style to subsection */
+.subsection-dark {
+	background-color: #262626;
+}
+
 
 /*
  *	DEMO SECTION STYLES
@@ -108,12 +141,38 @@ h3 {
  *	---------------------------------------------
  */
 
+.intro__section {
+	position: relative;
+	z-index: 20;
+}
+
+.intro-image {
+	position: absolute;
+	top: 4.8rem;
+	left: 0;
+	right: 0;
+	margin: auto;
+	width: 80%;
+	z-index: 0;
+}
+
+.intro__section__cards {
+	background-image: url("../images/star-background.svg");
+	background-repeat: no-repeat;
+	background-position: center 108%;
+	background-attachment: fixed;
+}
+
+.intro__section__overview,
 .intro__section__highlight {
 	text-align: center;
 }
 
+.intro__section__overview .highlight,
 .intro__section__highlight .highlight {
-	margin: 0 auto;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #262626;
 }
 
 
@@ -126,6 +185,8 @@ h3 {
  .l-flex--halves,
  .l-flex--guide--callout {
 	display: flex;
+	position: relative;
+	z-index: 20;
 }
 
  .l-flex--halves,
@@ -133,14 +194,13 @@ h3 {
 	flex-wrap: wrap;
  }
 
- .l-flex--halves {
+ .l-flex-center {
 	justify-content: center;
  }
 
 
  @media (min-width: 34em) {
 
-	.l-flex--halves,
 	.l-flex--guide--callout  {
 		margin-left: -1.5rem;
 		margin-right: -1.5rem;
@@ -152,6 +212,18 @@ h3 {
  *	GUIDE
  *	---------------------------------------------
  */
+
+.guide-section {
+	position: relative;
+} 
+
+.side-image {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	right: 0;
+	width: 50%;
+}
 
 .guide-col-main {
 	width: 100%;
@@ -184,7 +256,8 @@ h3 {
 	border: 2px solid #a5802a;	
 }
 
-.callout-text {
+.callout-text,
+.callout-text-dark {
 	order: 1;
 	margin-bottom: 1.5rem;
  }
@@ -198,6 +271,17 @@ h3 {
 	right: 0;
 	top: -.8rem;
 	max-width: 4rem;
+}
+
+.callout-text-dark::before {
+	content: url("../images/earth-detail.svg");
+	display: block;
+	position: absolute;
+	margin: auto;
+	left: 0;
+	right: 0;
+	top: -1rem;
+	max-width: 2rem;
 }
 
 .callout-img {
@@ -231,16 +315,17 @@ pre code {
 	}
 
 	.guide-col-main--alt {
-		max-width: 36rem;
+		max-width: 38rem;
 		flex: 1 1 20rem;
 	}
 	
 	.guide-col-side {
-		max-width: 20rem;
+		max-width: 24rem;
 		flex: 1 1 15rem;
 	}
 
-	.callout-text {
+	.callout-text,
+	.callout-text-dark {
 		margin-bottom: 0;
 	}
 }
@@ -253,9 +338,10 @@ pre code {
 .card {
 	position: relative;
 	flex: 1 1 20rem;
-	border: 2px solid #a5802a;
 	margin: 1.5rem 0;
 	max-width: 23rem;
+	background-color: #262626;
+	border: 2px solid #a5802a;
 }
 
 .card--right {
@@ -299,6 +385,29 @@ pre code {
 	}
 
 }
+
+/*
+ *	LAYOUT: CHARTS
+ *	---------------------------------------------
+ */
+
+ .chart {
+	position: relative;
+	flex: 1 1 20rem;
+	margin: 1.5rem 0;
+	max-width: 30rem;
+	background-color: #262626;
+}
+
+@media (min-width: 34em) {
+	
+	.chart {
+		margin-right: 1.5rem;
+		margin-left: 1.5rem;
+	}
+
+}
+
 
 
 /*

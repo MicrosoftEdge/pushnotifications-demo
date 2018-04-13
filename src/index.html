@@ -33,19 +33,20 @@
 	</header>
 	<main role="main">
 		<div class="intro l-section--banner--dark">
-			<div class="l-contain">
-                <section class="intro__section">
-                    <h1 class="intro__heading">Push Notifications</h1>
-                    <div class="intro__section__overview">
-                        <p class=""></p>
-                        <p></p>
-                        <p></p>
-                    </div>
-                    <button class="">Initiate Push</button>
-                </section>
+            <section class="intro__section l-contain">
+                <h1 class="intro__heading">Push Notifications</h1>
+                <div class="intro__section__overview l-subsection">
+                    <p class="highlight h3">It goes without saying that push notifications expand your reach to your users in a timely, power-efficient and dependable way. Users are re-engaged with customized and relevant content that will have them coming back for more.</p>
+                    <p class="highlight">Come along this journey to better understand how to set up your site – both the front-end and the back-end – to send push messages to a user without needing the browser or app to be opened. You can fork this tutorial itself on GitHub and even set it up locally so that you can play with it. </p>
+                    <p class="highlight">To see it in action, click the button below and then immediately close this tab (or browser). You should get a notification within 5 seconds after clicking the button below. Don’t worry, when you click the notification, it’ll take you right back here, so you can continue learning about push messages. </p>
+                    <button class="btn--action">Initiate Push</button>
+                </div>
+            </section>
+            <img src="images/top-star-chart.svg" class="intro-image" role="none" />
+            <div class="intro__section__cards">
                 <section class="intro__section l-section">
                     <h2>The different pieces</h2>
-                    <div class="intro__section__highlight l-subsection">
+                    <div class="intro__section__highlight l-subsection l-contain">
                         <p class="highlight">
                             At a high-level, there are four major pieces to the push puzzle: the app’s server, the app’s page, the notification 
                             service’s server, and of course the user agent or browser. Each of these different pieces play a role in subscribing 
@@ -53,7 +54,7 @@
                             notification is clicked. 
                         </p>
                     </div>
-                    <div class="l-flex--halves l-subsection">
+                    <div class="l-flex--halves l-flex-center l-subsection l-contain">
                         <div class="card card--right">
                             <h3>Server Side</h2>
                             <div class="card--illustration">
@@ -81,13 +82,44 @@
                             </div>
                         </div>
                     </div>
+                    <div class="l-subsection l-contain subsection-dark">
+                        <div class="l-flex--halves">
+                            <div class="chart">
+                                <div class="chart--illustration">
+                                    <img src="images/astrology-demo_chart-1.svg" role="none" />
+                                </div>
+                                <p>The app first attempts to subscribe the user to push messages. The browser will ask the user for permission to show notifications.</p>
+                            </div>
+                            <div class="chart">
+                                <div class="chart--illustration">
+                                    <img src="images/astrology-demo_chart-2.svg" role="none" />
+                                </div>
+                                <p>Once the user has given consent, the browser will communicate with the notification service’s server to establish a push message channel that can be used to send push messages.</p>
+                            </div>
+                            <div class="chart">
+                                <div class="chart--illustration">
+                                    <img src="images/astrology-demo_chart-3.svg" role="none" />
+                                </div>
+                                <p>The app’s server can store the necessary information related to the push subscription so that it can send push messages even after the page is gone. It does this by sending a message to the notification service’s server to push a message to the relevant client’s device. </p>
+                            </div>
+                            <div class="chart">
+                                <div class="chart--illustration">
+                                    <img src="images/astrology-demo_chart-4.svg" role="none" />
+                                </div>
+                                <p>When such a message arrives at the client’s device, the browser allows the app to prescribe a notification to show.</p>
+                            </div>
+                            <div class="chart">
+                                <div class="chart--illustration">
+                                    <img src="images/astrology-demo_chart-5.svg" role="none" />
+                                </div>
+                                <p>Once the notification is clicked, the browser allows the app to prescribe a page to open, focus, or navigate. </p>
+                            </div>
+                        </div>
+                    </div>
                 </section>
-                <section class="l-section">
-                    <p>charts</p>
-                </section>
-			</div>
+            </div>
         </div>
-        <section class="l-section">
+        <section class="l-section guide-section">
             <h2>Set up your server</h2>
             <div class="l-contain">
                 <div class="l-flex--guide l-subsection">
@@ -124,6 +156,7 @@ webpush.setVapidDetails(
                     </div>
                 </div>
             </div>
+            <img src="images/side-star-chart.svg" class="side-image" role="none" />
         </section>
         <section class="l-section l-section--banner--dark">
             <h2>Set up your web page</h2>
@@ -176,7 +209,7 @@ return outputArray;</code></pre>
                     </div>
                 </div>
                 <div class="l-flex--guide--callout l-subsection">
-                    <div class="guide-col-side callout-text callout-dark">
+                    <div class="guide-col-side callout-text-dark callout-dark">
                         <p class="highlight">At this point, before a new push subscription is created, the browser will check whether the user granted permission to receive notifications. If not, the user will be prompted by the browser for permission.</p>
                     </div>
                     <div class="guide-col-main--alt callout-img callout-dark">
