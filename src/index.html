@@ -12,7 +12,6 @@
 	<link rel="stylesheet" href="https://az813057.vo.msecnd.net/styles/fonts-full-20180102.css">
 	<link rel="stylesheet" href="styles/demo-template.css">
 	<link rel="stylesheet" href="styles/push-notifications.css">
-	<script src="/scripts/script.js"></script>
 </head>
 <body>
 	<header class="c-nav-bar">
@@ -48,10 +47,10 @@
                     <h2>The different pieces</h2>
                     <div class="intro__section__highlight l-subsection l-contain">
                         <p class="highlight">
-                            At a high-level, there are four major pieces to the push puzzle: the app’s server, the app’s page, the notification 
-                            service’s server, and of course the user agent or browser. Each of these different pieces play a role in subscribing 
-                            for the push message, sending push message updates, showing a notification and ultimately opening a page when that 
-                            notification is clicked. 
+                            At a high-level, there are four major pieces to the push puzzle: the app’s server, the app’s page, the notification
+                            service’s server, and of course the user agent or browser. Each of these different pieces play a role in subscribing
+                            for the push message, sending push message updates, showing a notification and ultimately opening a page when that
+                            notification is clicked.
                         </p>
                     </div>
                     <div class="l-flex--halves l-flex-center l-subsection l-contain">
@@ -62,9 +61,9 @@
                             </div>
                             <div class="card--bottom">
                                 <p class="card--caption">
-                                    The positions of the celestial objects in the sky (or in the cloud) are used to divine messages 
-                                    about terrestrial events. One could say that the celestial objects provide notifications about 
-                                    these events if called upon. For our guide, the app server and notification service’s server are 
+                                    The positions of the celestial objects in the sky (or in the cloud) are used to divine messages
+                                    about terrestrial events. One could say that the celestial objects provide notifications about
+                                    these events if called upon. For our guide, the app server and notification service’s server are
                                     represented by the zodiac and other celestial objects.
                                 </p>
                             </div>
@@ -76,7 +75,7 @@
                             </div>
                             <div class="card--bottom">
                                 <p class="card--caption">
-                                    The celestial objects are called upon by an astrologer to show their messages about terrestrial events. 
+                                    The celestial objects are called upon by an astrologer to show their messages about terrestrial events.
                                     Our user is an astrologer who receives messages from the celestial objects via her device.
                                 </p>
                             </div>
@@ -126,16 +125,16 @@
                     <div class="guide-col-main">
                         <p>To start, you’ll first need to make sure your web server is setup to send pushes. We’ll be using a node.js server and take advantage of the open-source web-push library so that we don’t have to worry about the encryption details involved with sending a push.</p>
                         <p>We’ll need to specify the VAPID keys that will allow identifications between our app’s server and the notification server (e.g. Firebase Cloud Messaging (FCM), Mozilla Cloud Services (MCS), and Windows Push Notification Service (WNS) depending on which browser is being used). You only need to set up the VAPID keys once which can be generated easily:</p>
-<pre><code>var webpush = require('web-push'); 
+<pre><code>var webpush = require('web-push');
 console.log(webpush.generateVAPIDKeys());</code></pre>
                         <p>Once they’re generated, you can use them for as long as you need to by setting the vapidKeys variable to what you just got when calling <code>generateVAPIDKeys()</code>:</p>
-<pre><code>var vapidKeys = { publicKey: 'BL6As_YCGHPf3ZeDbklyVxgvJVb4Tr5qjZFS-J7XzkT5zQNghd9iUBUsqSlVO5znwTsZZrEOx8JFRDJc1JmkymA', 
-privateKey: 'GnMVDgbtZrqs7tgKEkJaV5aZF8cVjoq7Ncz_TEVI_lo'}; 
-               
-webpush.setVapidDetails( 
-    'mailto:myaccount@outlook.com', 
-    vapidKeys.publicKey, 
-    vapidKeys.privateKey 
+<pre><code>var vapidKeys = { publicKey: 'BL6As_YCGHPf3ZeDbklyVxgvJVb4Tr5qjZFS-J7XzkT5zQNghd9iUBUsqSlVO5znwTsZZrEOx8JFRDJc1JmkymA',
+privateKey: 'GnMVDgbtZrqs7tgKEkJaV5aZF8cVjoq7Ncz_TEVI_lo'};
+
+webpush.setVapidDetails(
+    'mailto:myaccount@outlook.com',
+    vapidKeys.publicKey,
+    vapidKeys.privateKey
 );</code></pre>
                         <p>We’ll need to set up a few endpoints on our server so that we can provide the public key to our site. The public key will be used when subscribing for push messages so that the notifications server (e.g. WNS or FCM) can know that we are who we say we are when we send subsequent push messages.</p>
                         <p>We’ll also need an endpoint that will allow us to store the subscription details for a user so that we’ll be able to push messages to them from our app’s server.</p>
@@ -164,45 +163,45 @@ webpush.setVapidDetails(
                 <div class="l-flex--guide l-subsection">
                     <div class="guide-col-main">
                         <p>When the page loads, the first thing you’ll want to do is get the public key from the application server so that you can set up the push subscription. We can do this by setting up an endpoint on our server that returns the public key.</p>
-<pre><code>if (navigator.serviceWorker) {fetch('./api/key') 
-    .then(function(res) { 
-        res.json().then(function(data) { 
-            registerPush(data.key); 
-        }); 
-    }); 
+<pre><code>if (navigator.serviceWorker) {fetch('./api/key')
+    .then(function(res) {
+        res.json().then(function(data) {
+            registerPush(data.key);
+        });
+    });
 } </code></pre>
                         <p>With the public key in hand, as before, we’ll need to install the service worker and also create a push subscription.</p>
-<pre><code>navigator.serviceWorker.register('service-worker.js'); 
-navigator.serviceWorker.ready.then(function(registration) { 
-return reg.pushManager.getSubscription() 
-    .then(function(subscription) { 
-        if (subscription) { 
-            return subscription; 
-        } 
+<pre><code>navigator.serviceWorker.register('service-worker.js');
+navigator.serviceWorker.ready.then(function(registration) {
+return reg.pushManager.getSubscription()
+    .then(function(subscription) {
+        if (subscription) {
+            return subscription;
+        }
 
-        return registration.pushManager.subscribe({ 
-            userVisibleOnly: true, 
-            applicationServerKey: urlBase64ToUint8Array(appPubkey) 
-        }); 
-    })  
-    .then(function(subscription) { 
-        sub = subscription.toJSON(); 
-    }); 
-}); 
-} 
+        return registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(appPubkey)
+        });
+    })
+    .then(function(subscription) {
+        sub = subscription.toJSON();
+    });
+});
+}
 
-function urlBase64ToUint8Array(base64String) { 
-const padding = '='.repeat((4 - base64String.length % 4) % 4); 
-const base64 = (base64String + padding) 
-.replace(/\-/g, '+') 
-.replace(/_/g, '/'); 
+function urlBase64ToUint8Array(base64String) {
+const padding = '='.repeat((4 - base64String.length % 4) % 4);
+const base64 = (base64String + padding)
+.replace(/\-/g, '+')
+.replace(/_/g, '/');
 
-const rawData = window.atob(base64); 
-const outputArray = new Uint8Array(rawData.length); 
+const rawData = window.atob(base64);
+const outputArray = new Uint8Array(rawData.length);
 
-for (let i = 0; i < rawData.length; ++i)  { 
-outputArray[i] = rawData.charCodeAt(i); 
-} 
+for (let i = 0; i &lt; rawData.length; ++i)  {
+outputArray[i] = rawData.charCodeAt(i);
+}
 
 return outputArray;</code></pre>
                         <p>We’ll need to make sure that we have an active service worker before we attempt to subscribe for push. We can do this by using navigator.serviceWorker.ready which will resolve when a service worker is active.</p>
@@ -220,18 +219,18 @@ return outputArray;</code></pre>
                     <div class="guide-col-main">
                         <p>To create a push subscription, you’ll need to set the userVisibleOnly option to “true” – meaning a notification must be shown as a result of a push – and provide a valid applicationServerKey. If there is already a push subscription, there is no need to subscribe again. That said, we’ll want to first check if there’s an existing push subscription and use that first.</p>
                         <p>At any point when a push is received by the client, a corresponding service worker is run to handle the push event. As part of this push handling, a notification must be shown so that the user understands that something is happening in the background. In the service worker (sw.js), we will handle the onpush event and show a notification:</p>
-<pre><code>self.onpush = function(event) { 
-    event.waitUntil( 
-        registration.showNotification('WEATHER ADVISORY', { 
-            body: event.data ? event.data.text() : 'no payload', 
-            icon: 'icon.png' 
-        }) 
-    ); 
+<pre><code>self.onpush = function(event) {
+    event.waitUntil(
+        registration.showNotification('WEATHER ADVISORY', {
+            body: event.data ? event.data.text() : 'no payload',
+            icon: 'icon.png'
+        })
+    );
 } </code></pre>
                         <p>After a notification is shown, there is still the matter of dealing with when it’s been clicked. As such, we need to have another event listener in the service worker that would handle this case. In the same service worker, we will handle the onnotificationclick event to close the notification and then open a new window for our site:</p>
-<pre><code>self.onnotificationclick = function(event) { 
-    event.notification.close(); 
-    event.waitUntil(clients.openWindow('weather/advisory')); 
+<pre><code>self.onnotificationclick = function(event) {
+    event.notification.close();
+    event.waitUntil(clients.openWindow('weather/advisory'));
 } </code></pre>
                         <p>You’re also able to sort through the already open windows and focus one of those, or perhaps even navigate an existing window. </p>
                     </div>
@@ -246,7 +245,6 @@ return outputArray;</code></pre>
                             <p class="highlight">Great, so now we have a fully working push site. It’s time for you to get your hands dirty and see what you can come up with. Make sure you upgrade to the latest version of Windows which comes with Edge that supports service workers and push. We’d love to hear from you if you have any questions or find any bugs. Please let us know! </p>
                         </div>
                         <div class="guide-col-main--alt callout-img callout-light">
-    
                         </div>
                     </div>
 	</main>
@@ -260,8 +258,8 @@ return outputArray;</code></pre>
 				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path fill-rule="evenodd" clip-rule="evenodd" fill="#FFF" d="M10 .2C4.5.2 0 4.7 0 10.2c0 4.4 2.9 8.2 6.8 9.5.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.1-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.2 2.9.9.1-.6.3-1.1.6-1.3-2.1-.3-4.5-1.1-4.5-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.6 0 0 .8-.3 2.7 1 .9-.2 1.8-.3 2.6-.3s1.7.1 2.5.3c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.6.6.7 1 1.6 1 2.7 0 3.8-2.3 4.7-4.6 4.9.4.3.7.9.7 1.9v2.7c0 .3.2.6.7.5 4-1.3 6.8-5.1 6.8-9.5.1-5.5-4.4-10-9.9-10z"/></svg><span>Explore code</span>
 			</a>
 		</div>
-	</footer>
-	<script src="scripts/demo-template.js"></script>
-	<script src="scripts/your-demo-name.js"></script>
+    </footer>
+    <script src="scripts/demo-template.js"></script>
+    <script src="/scripts/script.js"></script>
 </body>
 </html>

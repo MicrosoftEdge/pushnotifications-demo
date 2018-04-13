@@ -20,7 +20,19 @@ If you are using VS Code you can set them in your `launch.json` file as follows:
             "type": "node",
             "request": "launch",
             "name": "Launch demo",
-            "program": "${workspaceFolder}\\index.js",
+            "program": "${workspaceFolder}/index.js",
+            "env": {
+                "DATABASE_CONNECTION_URI": "YOUR CONNECTION STRING",
+                "VAPID_PUBLIC_KEY": "YOUR PUBLIC KEY",
+                "VAPID_PRIVATE_KEY": "YOUR PRIVATE KEY",
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Job",
+            "program": "${workspaceFolder}/App_data/jobs/triggered/notify/index.js",
+            "cwd": "${workspaceFolder}/App_data/jobs/triggered/notify",
             "env": {
                 "DATABASE_CONNECTION_URI": "YOUR CONNECTION STRING",
                 "VAPID_PUBLIC_KEY": "YOUR PUBLIC KEY",

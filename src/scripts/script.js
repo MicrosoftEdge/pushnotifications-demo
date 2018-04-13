@@ -29,25 +29,37 @@ function saveSubscription(subscription) {
     });
 }
 
-function registerPush(appPubkey) {
-    navigator.serviceWorker.register('service-worker.js');
-    navigator.serviceWorker.ready
-        .then(registration => {
-            return registration.pushManager.getSubscription()
-                .then(subscription => {
+function getPublicKey() {
+    return fetch('./api/key')
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            return data.key;
+        });
+}
+
+function registerPush() {
+    navigator.serviceWorker.register('service-worker.js').then(function() {
+        navigator.serviceWorker.ready
+            .then(function(registration) {
+                return registration.pushManager.getSubscription().then(function(subscription) {
                     if (subscription) {
                         return subscription;
                     }
 
-                    return registration.pushManager.subscribe({
-                        userVisibleOnly: true,
-                        applicationServerKey: urlB64ToUint8Array(appPubkey)
+                    return getPublicKey().then(function(key) {
+                        return registration.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: urlB64ToUint8Array(key)
+                        });
                     });
-                })
-        })
-        .then(subscription => {
-            saveSubscription(subscription);
-        });
+                });
+            })
+            .then(function(subscription) {
+                saveSubscription(subscription);
+            });
+    });
 }
 
 function sendMessage(message) {
@@ -65,15 +77,18 @@ function sendMessage(message) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', e => {
+document.addEventListener('DOMContentLoaded', function(event) {
     if (navigator.serviceWorker) {
-        // get application public key
-        fetch('./api/key').then(function (res) {
-            res.json().then(data => {
-                registerPush(data.key);
-            });
-        });
+        registerPush();
     } else {
         // service worker is not supported, so it won't work!
     }
 });
+
+function resetServiceWorker() {
+    navigator.serviceWorker.getRegistration().then(function(registration) {
+        registration.unregister().then(function() {
+            registerPush();
+        });
+    });
+}
