@@ -18,7 +18,7 @@ function urlB64ToUint8Array(base64String) {
 function saveSubscription(subscription) {
     sub = subscription;
 
-    fetch('./api/subscribe', {
+    return fetch('./api/subscribe', {
         method: 'post',
         headers: {
             'Content-type': 'application/json'
@@ -35,13 +35,13 @@ function getPublicKey() {
             return response.json();
         })
         .then(function(data) {
-            return data.key;
+            return urlB64ToUint8Array(data.key);
         });
 }
 
 function registerPush() {
-    navigator.serviceWorker.register('service-worker.js').then(function() {
-        navigator.serviceWorker.ready
+    return navigator.serviceWorker.register('service-worker.js').then(function() {
+        return navigator.serviceWorker.ready
             .then(function(registration) {
                 return registration.pushManager.getSubscription().then(function(subscription) {
                     if (subscription) {
@@ -57,7 +57,7 @@ function registerPush() {
                 });
             })
             .then(function(subscription) {
-                saveSubscription(subscription);
+                return saveSubscription(subscription);
             });
     });
 }
@@ -68,7 +68,7 @@ function sendMessage(message) {
         payload: message
     }
 
-    fetch('./api/notify', {
+    return fetch('./api/notify', {
         method: 'post',
         headers: {
             'Content-type': 'application/json'
@@ -78,17 +78,27 @@ function sendMessage(message) {
 }
 
 document.addEventListener('DOMContentLoaded', function(event) {
+    const pushBtn = document.getElementById('initiate-push');
+
     if (navigator.serviceWorker) {
-        registerPush();
+        registerPush().then(function() {
+            pushBtn.removeAttribute('disabled');
+            pushBtn.innerText = 'Initiate Push';
+            pushBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+                sendMessage('test');
+            });
+        });
     } else {
         // service worker is not supported, so it won't work!
+        pushBtn.innerText = 'SW & Push are Not Supported';
     }
 });
 
 function resetServiceWorker() {
-    navigator.serviceWorker.getRegistration().then(function(registration) {
-        registration.unregister().then(function() {
-            registerPush();
+    return navigator.serviceWorker.getRegistration().then(function(registration) {
+        return registration.unregister().then(function() {
+            return registerPush();
         });
     });
 }
