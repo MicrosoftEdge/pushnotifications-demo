@@ -32,7 +32,7 @@ app.post('/api/subscribe', async function(req, res) {
         const sub = req.body.subscription;
 
         // Find if user is already subscribed searching by `endpoint`
-        const exists = await Subscription.findOne({ endpoint: subscription.endpoint });
+        const exists = await Subscription.findOne({ endpoint: sub.endpoint });
 
         if (exists) {
             // Maybe refresh the subscription info?
@@ -40,16 +40,8 @@ app.post('/api/subscribe', async function(req, res) {
 
             return;
         }
-
-        const data = new Subscription({
-            endpoint: sub.endpoint,
-            keys: {
-                auth: sub.auth,
-                p256dh: sub.p256dh
-            }
-        });
-
-        await data.save();
+        
+        await (new Subscription(sub)).save();
 
         res.status(200).send('Success');
     } catch (e) {

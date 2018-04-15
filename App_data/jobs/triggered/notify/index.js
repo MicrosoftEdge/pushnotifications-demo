@@ -19,12 +19,12 @@ const init = async function() {
 
     try {
         const cursor = Subscription.find().cursor();
-        await cursor.eachAsync(function(doc) {
+        await cursor.eachAsync(function(sub) {
             return configuredWebPush.webPush.sendNotification({
-                endpoint: doc.endpoint,
+                endpoint: sub.endpoint,
                 keys: {
-                    auth: doc.keys.auth,
-                    p256dh: doc.keys.p256dh
+                    auth: sub.keys.auth,
+                    p256dh: sub.keys.p256dh
                 }
             }, pushMessage, {contentEncoding: 'aes128gcm'})
             .then(function(push) {
@@ -34,12 +34,12 @@ const init = async function() {
                 // 404 for FCM AES128GCM
                 if (e.statusCode === 410 || e.statusCode === 404) {
                     // delete invalid registration
-                   return Subscription.remove({endpoint: doc.endpoint}).exec()
-                        .then(function(doc) {
-                            console.log('Deleted: ' + doc.endpoint);
+                   return Subscription.remove({endpoint: sub.endpoint}).exec()
+                        .then(function(sub) {
+                            console.log('Deleted: ' + sub.endpoint);
                         })
-                        .catch(function(doc) {
-                            console.error('Failed to delete: ' + doc.endpoint);
+                        .catch(function(sub) {
+                            console.error('Failed to delete: ' + sub.endpoint);
                         });
                 }
             });

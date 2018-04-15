@@ -1,5 +1,3 @@
-let sub;
-
 function urlB64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
     const base64 = (base64String + padding)
@@ -16,8 +14,6 @@ function urlB64ToUint8Array(base64String) {
 }
 
 function saveSubscription(subscription) {
-    sub = subscription;
-
     return fetch('./api/subscribe', {
         method: 'post',
         headers: {
@@ -39,30 +35,47 @@ function getPublicKey() {
         });
 }
 
-function registerPush() {
-    return navigator.serviceWorker.register('service-worker.js').then(function() {
-        return navigator.serviceWorker.ready
-            .then(function(registration) {
-                return registration.pushManager.getSubscription().then(function(subscription) {
-                    if (subscription) {
-                        return subscription;
-                    }
-
-                    return getPublicKey().then(function(key) {
-                        return registration.pushManager.subscribe({
-                            userVisibleOnly: true,
-                            applicationServerKey: urlB64ToUint8Array(key)
-                        });
-                    });
-                });
-            })
-            .then(function(subscription) {
-                return saveSubscription(subscription);
-            });
-    });
+function registerServiceWorker() {
+    return navigator.serviceWorker.register('service-worker.js');
 }
 
-function sendMessage(message) {
+function resetServiceWorkerAndPush() {
+    return navigator.serviceWorker.getRegistration()
+        .then(function(registration) {
+            if (registration) {
+                return registration.unregister();
+            }
+        })
+        .then(function() {
+            return registerServiceWorker().then(function(registration) {
+                return registerPush();
+            });
+        });
+}
+
+function registerPush() {
+    return navigator.serviceWorker.ready
+        .then(function(registration) {
+            return registration.pushManager.getSubscription().then(function(subscription) {
+                if (subscription) {
+                    return subscription;
+                }
+
+                return getPublicKey().then(function(key) {
+                    return registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: key
+                    });
+                });
+            });
+        })
+        .then(function(subscription) {
+            saveSubscription(subscription);
+            return subscription;
+        });
+}
+
+function sendMessage(sub, message) {
     const data = {
         subscription: sub,
         payload: message
@@ -81,12 +94,14 @@ document.addEventListener('DOMContentLoaded', function(event) {
     const pushBtn = document.getElementById('initiate-push');
 
     if (navigator.serviceWorker) {
-        registerPush().then(function() {
+        registerServiceWorker().then(function() {
             pushBtn.removeAttribute('disabled');
             pushBtn.innerText = 'Initiate Push';
             pushBtn.addEventListener('click', function(event) {
                 event.preventDefault();
-                sendMessage('test');
+                registerPush().then(function(sub) {
+                    sendMessage(sub, 'test');
+                });
             });
         });
     } else {
@@ -94,11 +109,3 @@ document.addEventListener('DOMContentLoaded', function(event) {
         pushBtn.innerText = 'SW & Push are Not Supported';
     }
 });
-
-function resetServiceWorker() {
-    return navigator.serviceWorker.getRegistration().then(function(registration) {
-        return registration.unregister().then(function() {
-            return registerPush();
-        });
-    });
-}
