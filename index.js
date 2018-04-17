@@ -49,6 +49,19 @@ app.post('/api/subscribe', async function(req, res) {
     }
 });
 
+app.post('/api/unsubscribe', async function(req, res) {
+    try {
+        const sub = req.body.subscription;
+
+        await Subscription.remove({endpoint: sub.endpoint});
+        console.log('Deleted: ' + sub.endpoint);
+
+        res.status(200).send('Success');
+    } catch (e) {
+        res.status(500).send(e.message);
+    }
+});
+
 app.post('/api/notify', async function(req, res) {
     try {
         const data = req.body;
