@@ -32,7 +32,7 @@ function getPublicKey() {
         });
 }
 
-function publishSubscription(remove) {
+function publishSubscription(subscription, remove) {
 	return fetch('./api/' + (remove ? 'un' : '') + 'subscribe', {
         method: 'post',
         headers: {
@@ -45,9 +45,9 @@ function publishSubscription(remove) {
 }
 
 function saveSubscription(subscription) {
-    return publishSubscription();
+    return publishSubscription(subscription);
 }
 
 function deleteSubscription(subscription) {
-    return publishSubscription(true);
+    return publishSubscription(subscription, true);
 }
