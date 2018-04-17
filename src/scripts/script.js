@@ -1,5 +1,3 @@
-let sub;
-
 function urlB64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
     const base64 = (base64String + padding)
@@ -16,9 +14,7 @@ function urlB64ToUint8Array(base64String) {
 }
 
 function saveSubscription(subscription) {
-    sub = subscription;
-
-    fetch('./api/subscribe', {
+    return fetch('./api/subscribe', {
         method: 'post',
         headers: {
             'Content-type': 'application/json'
@@ -35,40 +31,57 @@ function getPublicKey() {
             return response.json();
         })
         .then(function(data) {
-            return data.key;
+            return urlB64ToUint8Array(data.key);
+        });
+}
+
+function registerServiceWorker() {
+    return navigator.serviceWorker.register('service-worker.js');
+}
+
+function resetServiceWorkerAndPush() {
+    return navigator.serviceWorker.getRegistration()
+        .then(function(registration) {
+            if (registration) {
+                return registration.unregister();
+            }
+        })
+        .then(function() {
+            return registerServiceWorker().then(function(registration) {
+                return registerPush();
+            });
         });
 }
 
 function registerPush() {
-    navigator.serviceWorker.register('service-worker.js').then(function() {
-        navigator.serviceWorker.ready
-            .then(function(registration) {
-                return registration.pushManager.getSubscription().then(function(subscription) {
-                    if (subscription) {
-                        return subscription;
-                    }
+    return navigator.serviceWorker.ready
+        .then(function(registration) {
+            return registration.pushManager.getSubscription().then(function(subscription) {
+                if (subscription) {
+                    return subscription;
+                }
 
-                    return getPublicKey().then(function(key) {
-                        return registration.pushManager.subscribe({
-                            userVisibleOnly: true,
-                            applicationServerKey: urlB64ToUint8Array(key)
-                        });
+                return getPublicKey().then(function(key) {
+                    return registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: key
                     });
                 });
-            })
-            .then(function(subscription) {
-                saveSubscription(subscription);
             });
-    });
+        })
+        .then(function(subscription) {
+            saveSubscription(subscription);
+            return subscription;
+        });
 }
 
-function sendMessage(message) {
+function sendMessage(sub, message) {
     const data = {
         subscription: sub,
         payload: message
     }
 
-    fetch('./api/notify', {
+    return fetch('./api/notify', {
         method: 'post',
         headers: {
             'Content-type': 'application/json'
@@ -78,17 +91,21 @@ function sendMessage(message) {
 }
 
 document.addEventListener('DOMContentLoaded', function(event) {
+    const pushBtn = document.getElementById('initiate-push');
+
     if (navigator.serviceWorker) {
-        registerPush();
+        registerServiceWorker().then(function() {
+            pushBtn.removeAttribute('disabled');
+            pushBtn.innerText = 'Initiate Push';
+            pushBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+                registerPush().then(function(sub) {
+                    sendMessage(sub, 'test');
+                });
+            });
+        });
     } else {
         // service worker is not supported, so it won't work!
+        pushBtn.innerText = 'SW & Push are Not Supported';
     }
 });
-
-function resetServiceWorker() {
-    navigator.serviceWorker.getRegistration().then(function(registration) {
-        registration.unregister().then(function() {
-            registerPush();
-        });
-    });
-}

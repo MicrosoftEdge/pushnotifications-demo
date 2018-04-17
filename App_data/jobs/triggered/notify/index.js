@@ -19,33 +19,31 @@ const init = async function() {
 
     try {
         const cursor = Subscription.find().cursor();
-        for (let doc = await cursor.next(); doc != null; doc = await cursor.next()) {
-            try {
-                console.log(doc);
-                const push = await configuredWebPush.webPush.sendNotification({
-                    endpoint: doc.endpoint,
-                    keys: {
-                        auth: doc.keys.auth,
-                        p256dh: doc.keys.p256dh
-                    }
-                }, pushMessage, {contentEncoding: 'aes128gcm'});
-
+        await cursor.eachAsync(function(sub) {
+            return configuredWebPush.webPush.sendNotification({
+                endpoint: sub.endpoint,
+                keys: {
+                    auth: sub.keys.auth,
+                    p256dh: sub.keys.p256dh
+                }
+            }, pushMessage, {contentEncoding: 'aes128gcm'})
+            .then(function(push) {
                 console.log(push);
-            } catch (e) {
+            })
+            .catch(function(e) {
                 // 404 for FCM AES128GCM
                 if (e.statusCode === 410 || e.statusCode === 404) {
                     // delete invalid registration
-                    try {
-                        await Subscription.remove({endpoint: doc.endpoint}).exec();
-                        console.log('Deleted: ' + doc.endpoint);
-                    } catch (e) {
-                        console.error('Failed to delete: ' + doc.endpoint);
-                    }
+                   return Subscription.remove({endpoint: sub.endpoint}).exec()
+                        .then(function(sub) {
+                            console.log('Deleted: ' + sub.endpoint);
+                        })
+                        .catch(function(sub) {
+                            console.error('Failed to delete: ' + sub.endpoint);
+                        });
                 }
-
-                console.log(e);
-            }
-        }
+            });
+        });
     } catch (e) {
         console.log(e);
     }
