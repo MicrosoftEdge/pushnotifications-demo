@@ -33,7 +33,7 @@ function getPublicKey() {
 }
 
 function publishSubscription(remove) {
-	return fetch('./api/' (remove ? 'un' : '') + 'subscribe', {
+	return fetch('./api/' + (remove ? 'un' : '') + 'subscribe', {
         method: 'post',
         headers: {
             'Content-type': 'application/json'
