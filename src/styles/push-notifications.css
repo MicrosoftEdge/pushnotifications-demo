@@ -16,17 +16,17 @@ body {
 }
 
 ::-moz-selection {
-	background: #0078d7;
-	color: #fff;
+	background: #a5802a;
+	color: #000;
 }
 
 ::selection {
-	background: #0078d7;
-	color: #fff;
+	background: #a5802a;
+	color: #000;
 }
 
 a:link, a:visited {
-	color: #0078d7;
+	color: #a5802a;
 }
 
 a:hover {
