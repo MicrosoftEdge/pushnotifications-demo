@@ -41,7 +41,7 @@
                     <button class="btn--action" id="initiate-push" disabled="disabled">Initiating...</button>
                 </div>
             </section>
-            <img src="images/top-star-chart.svg" class="intro-image" role="none" />
+            <img src="images/top-star-chart.svg" class="intro-image" role="presentation" alt="" />
             <div class="intro__section__cards">
                 <section class="intro__section l-section">
                     <h2>The different pieces</h2>
@@ -55,9 +55,9 @@
                     </div>
                     <div class="l-flex--halves l-flex-center l-subsection l-contain">
                         <div class="card card--right">
-                            <h3>Server Side</h2>
+                            <h3>Server Side</h3>
                             <div class="card--illustration">
-                                <img src="images/leo-server-side.svg" role="presentation" />
+                                <img src="images/leo-server-side.svg" role="presentation" alt="" />
                             </div>
                             <div class="card--bottom">
                                 <p class="card--caption">
@@ -69,9 +69,9 @@
                             </div>
                         </div>
                         <div class="card card--left">
-                            <h3>Client Side</h2>
+                            <h3>Client Side</h3>
                             <div class="card--illustration">
-                                    <img src="images/client-side.svg" role="presentation" />
+                                    <img src="images/client-side.svg" role="presentation" alt="" />
                             </div>
                             <div class="card--bottom">
                                 <p class="card--caption">
@@ -84,31 +84,31 @@
                         <div class="l-flex--halves">
                             <div class="chart">
                                 <div class="chart--illustration">
-                                    <img src="images/astrology-demo_chart-1.svg" role="none" />
+                                    <img src="images/astrology-demo_chart-1.svg" role="presentation" alt="" />
                                 </div>
                                 <p>The app first attempts to subscribe the user to push messages. The browser will ask the user for permission to show notifications.</p>
                             </div>
                             <div class="chart">
                                 <div class="chart--illustration">
-                                    <img src="images/astrology-demo_chart-2.svg" role="none" />
+                                    <img src="images/astrology-demo_chart-2.svg" role="presentation" alt="" />
                                 </div>
                                 <p>Once the user has given consent, the browser will communicate with the notification service’s server to establish a push message channel that can be used to send push messages.</p>
                             </div>
                             <div class="chart">
                                 <div class="chart--illustration">
-                                    <img src="images/astrology-demo_chart-3.svg" role="none" />
+                                    <img src="images/astrology-demo_chart-3.svg" role="presentation" alt="" />
                                 </div>
                                 <p>The app’s server can store the necessary information related to the push subscription so that it can send push messages even after the page is gone. It does this by sending a message to the notification service’s server to push a message to the relevant client’s device. </p>
                             </div>
                             <div class="chart">
                                 <div class="chart--illustration">
-                                    <img src="images/astrology-demo_chart-4.svg" role="none" />
+                                    <img src="images/astrology-demo_chart-4.svg" role="presentation" alt="" />
                                 </div>
                                 <p>When such a message arrives at the client’s device, the browser allows the app to prescribe a notification to show.</p>
                             </div>
                             <div class="chart">
                                 <div class="chart--illustration">
-                                    <img src="images/astrology-demo_chart-5.svg" role="none" />
+                                    <img src="images/astrology-demo_chart-5.svg" role="presentation" alt="" />
                                 </div>
                                 <p>Once the notification is clicked, the browser allows the app to prescribe a page to open, focus, or navigate. </p>
                             </div>
@@ -157,7 +157,7 @@ webpush.setVapidDetails(
                     </div>
                 </div>
             </div>
-            <img src="images/side-star-chart.svg" class="side-image" role="none" />
+            <img src="images/side-star-chart.svg" class="side-image" role="presentation" alt="" />
         </section>
         <section class="l-section l-section--banner--dark">
             <h2><span class="title-step">Step 2</span> Set up your web page</h2>
@@ -220,7 +220,7 @@ return outputArray;</code></pre>
                 <div class="l-flex--guide l-subsection">
                     <div class="guide-col-main">
                         <p>To create a push subscription, you’ll need to set the <code>userVisibleOnly</code> option to “true” – meaning a notification must be shown as a result of a push – and provide a valid <code>applicationServerKey</code>. If there is already a push subscription, there is no need to subscribe again. That said, we’ll want to first check if there’s an existing push subscription and use that first.</p>
-                        <p>At any point when a push is received by the client, a corresponding service worker is run to handle the push event. As part of this push handling, a notification must be shown so that the user understands that something is happening in the background. In the service worker (sw.js), we will handle the <code>onpush</code event and show a notification:</p>
+                        <p>At any point when a push is received by the client, a corresponding service worker is run to handle the push event. As part of this push handling, a notification must be shown so that the user understands that something is happening in the background. In the service worker (sw.js), we will handle the <code>onpush</code> event and show a notification:</p>
 <pre><code>self.onpush = function(event) {
     event.waitUntil(
         registration.showNotification('WEATHER ADVISORY', {
