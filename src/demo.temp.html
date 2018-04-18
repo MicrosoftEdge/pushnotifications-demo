@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Demo</title>
+    </head>
+
+    <body>
+        Sending message!
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var http = new XMLHttpRequest();
+                var url = './api/notify-demo';
+                http.open('POST', url, true);
+                http.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+                http.send();
+            });
+        </script>
+    </body>
+</html>

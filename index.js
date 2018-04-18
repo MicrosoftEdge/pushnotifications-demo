@@ -81,6 +81,25 @@ app.post('/api/notify', async function(req, res) {
     }
 });
 
+app.post('/api/notify-demo', async function(req, res) {
+    try {
+        const ObjectId = require('mongoose').Types.ObjectId;
+        const sub = await Subscription.findOne({ _id: new ObjectId("55555f987beff227a8455555") });
+        await configuredWebPush.webPush.sendNotification(sub, 'Hello there!', { contentEncoding: 'aes128gcm' })
+            .then(function (response) {
+                console.log('Response: ' + JSON.stringify(response, null, 4));
+                res.status(201).send(response);
+            })
+            .catch(function (e) {
+                console.log('Error: ' + JSON.stringify(e, null, 4));
+                res.status(201).send(e);
+            });
+    } catch (e) {
+        res.status(500)
+            .send(e.message);
+    }
+});
+
 app.listen(port, function() {
     console.log(`Server listening on port ${port}`);
 });
