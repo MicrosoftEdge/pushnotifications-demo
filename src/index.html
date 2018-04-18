@@ -35,6 +35,7 @@
             <section class="intro__section l-contain">
                 <h1 class="intro__heading">Push Notifications</h1>
                 <div class="intro__section__overview l-subsection">
+                    <p class="highlight h3">Welcome to the future of the web……where push messages can help you achieve what apps have long been able to do.</p>
                     <p class="highlight h3">It goes without saying that push notifications expand your reach to your users in a timely, power-efficient and dependable way. Users are re-engaged with customized and relevant content that will have them coming back for more.</p>
                     <p class="highlight">Come along this journey to better understand how to set up your site – both the front-end and the back-end – to send push messages to a user without needing the browser or app to be opened. You can fork this tutorial itself on GitHub and even set it up locally so that you can play with it. </p>
                     <p class="highlight">To see it in action, click the button below and then immediately close this tab (or browser). You should get a notification within 5 seconds after clicking the button below. Don’t worry, when you click the notification, it’ll take you right back here, so you can continue learning about push messages. </p>
@@ -112,8 +113,10 @@
                                 </div>
                                 <p>Once the notification is clicked, the browser allows the app to prescribe a page to open, focus, or navigate. </p>
                             </div>
-                            <div class="chart">
-                                <p class="highlight">Now that you have an overview of how Push Notifications work, let's dive into building the back-end and front-end pieces to put it all together.</p>
+                            <div class="non-chart">
+                                <div class="callout">
+                                    <p class="highlight">Now that you have an overview of how Push Notifications work, let's dive into building the back-end and front-end pieces to put it all together.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -144,7 +147,7 @@ webpush.setVapidDetails(
                 </div>
                 <div class="l-flex--guide--callout l-subsection">
                     <div class="guide-col-side callout-text callout-light">
-                        <p class="highlight">In our example, we are going to be sending star trivia push updates to each user that is subscribed daily at 7am Pacific Time. This will be done in a cron job that runs on the server. Therefore, it’s important that we store the subscription information on the server so that we can send this update whenever we need to.</p>
+                        <p class="highlight">In our example, we are going to be sending astrology trivia push updates to each user that is subscribed daily at 7am Pacific Time. This will be done in a cron job that runs on the server. Therefore, it’s important that we store the subscription information on the server so that we can send this update whenever we need to.</p>
                     </div>
                     <div class="guide-col-main--alt callout-img callout-light">
 
@@ -214,7 +217,7 @@ return outputArray;</code></pre>
                         <p class="highlight">At this point, before a new push subscription is created, the browser will check whether the user granted permission to receive notifications. If not, the user will be prompted by the browser for permission.</p>
                     </div>
                     <div class="guide-col-main--alt callout-img callout-dark">
-
+                        <img src="images/notifications-permission.svg" alt="" role="presentation" />
                     </div>
                 </div>
                 <div class="l-flex--guide l-subsection">

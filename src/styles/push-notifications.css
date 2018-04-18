@@ -261,6 +261,27 @@ h3,
 	margin: 0 1.5rem;
 }
 
+.callout {
+	position: relative;
+	max-width: 30rem;
+	font-size: 1.4rem;
+	margin: 0 auto;
+	padding: 1rem;
+	text-align: center;
+}
+
+.callout::before {
+	content: url("../images/triangle-up.svg");
+	display: block;
+	position: absolute;
+	margin: auto;
+	left: 0;
+	right: 0;
+	top: -1.2rem;
+	max-width: 2rem;
+	background-color: #262626;
+}
+
 .callout-light,
 .callout-dark {
 	position: relative;
@@ -273,6 +294,7 @@ h3,
 	border: 2px solid #9b8e6e;
 }
 
+.callout,
 .callout-dark {
 	border: 2px solid #a5802a;	
 }
@@ -420,8 +442,17 @@ pre code {
 	background-color: #262626;
 }
 
+.non-chart {
+	position: relative;
+	flex: 1 1 20rem;
+	max-height: 20rem;
+	margin: 1.5rem 0;
+	align-self: center;
+}
+
 @media (min-width: 34em) {
 	
+	.non-chart,
 	.chart {
 		margin-right: 1.5rem;
 		margin-left: 1.5rem;
