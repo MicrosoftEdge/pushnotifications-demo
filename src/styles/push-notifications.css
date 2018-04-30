@@ -173,7 +173,7 @@ h3,
 	left: 0;
 	right: 0;
 	margin: auto;
-	width: 80%;
+	width: 75%;
 	z-index: 0;
 }
 
@@ -239,11 +239,11 @@ h3,
 } 
 
 .side-image {
-	position: absolute;
-	z-index: 1;
-	top: 0;
-	right: 0;
-	width: 50%;
+    background-image: url("../images/side-star-chart.svg");
+    background-repeat: no-repeat;
+    background-position: right 0;
+    background-attachment: fixed;
+    background-size: 49%;
 }
 
 .guide-col-main {
@@ -417,6 +417,8 @@ pre code {
 .card--caption {
 	font-size: .8rem;
 	padding: 1rem;
+	letter-spacing: .02rem;
+	line-height: 1.2rem;
 	text-align: center;
 }
 
