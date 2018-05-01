@@ -148,7 +148,7 @@ h3,
 
 /* Only apply dark background style to subsection */
 .subsection-dark {
-	background-color: #262626;
+	background-color: #202020;
 }
 
 
@@ -161,6 +161,28 @@ h3,
  *	INTRO
  *	---------------------------------------------
  */
+
+.intro__heading {
+    position: relative;
+    max-width: 33rem;
+    margin: 0 auto;
+    padding: .5rem 1rem;
+    background-color: #000;
+    border: 1px solid #a5802a;
+    z-index: 10;
+    border-left: none;
+    border-right: none
+}
+
+.heading__image {
+    position: absolute;
+    width: 11rem;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: -2.6rem;
+    z-index: 0;
+}
 
 .intro__section {
 	position: relative;
@@ -184,18 +206,16 @@ h3,
 	background-attachment: fixed;
 }
 
-.intro__section__overview,
-.intro__section__highlight {
-	text-align: center;
+.intro__section__overview > p:first-child {
+	max-width: 34rem;
 }
 
 .intro__section__overview .highlight,
-.intro__section__highlight .highlight {
+.intro__section__cards .highlight {
 	margin-left: auto;
 	margin-right: auto;
-	background-color: #262626;
+	text-align: center;
 }
-
 
 /*
  *	LAYOUT: FLEX
@@ -279,7 +299,7 @@ h3,
 	right: 0;
 	top: -1.2rem;
 	max-width: 2rem;
-	background-color: #262626;
+	background-color: #202020;
 }
 
 .callout-light,
@@ -383,7 +403,7 @@ pre code {
 	flex: 1 1 20rem;
 	margin: 1.5rem 0;
 	max-width: 23rem;
-	background-color: #262626;
+	background-color: #202020;
 	border: 2px solid #a5802a;
 }
 
@@ -406,7 +426,7 @@ pre code {
 	left: 0;
 	right: 0;
 	top: -1rem;
-	background: #262626;
+	background: #202020;
 }
 
 .card--illustration {
@@ -441,7 +461,7 @@ pre code {
 	flex: 1 1 20rem;
 	margin: 1.5rem 0;
 	max-width: 30rem;
-	background-color: #262626;
+	background-color: #202020;
 }
 
 .non-chart {
@@ -549,7 +569,12 @@ pre code {
 
 .l-section--banner--dark,
 .l-subsection--banner--dark {
-	background: #262626;
+	background: #202020;
+	color: #fff;
+}
+
+.l-section--banner--dark-black {
+	background: #0c0c0c;
 	color: #fff;
 }
 

@@ -65,6 +65,7 @@ a:hover {
 
 .l-section--banner,
 .l-section--banner--dark,
+.l-section--banner--dark-black,
 .c-intro {
 	padding-top: 3.5em;
 	padding-bottom: 3.5em;
@@ -84,7 +85,8 @@ a:hover {
 .l-section--banner + .l-section--banner,
 .l-subsection--banner + .l-subsection--banner,
 .l-section--banner--dark + .l-section--banner--dark,
-.l-subsection--banner--dark + .l-subsection--banner--dark, {
+.l-subsection--banner--dark + .l-subsection--banner--dark,
+.l-section--banner--dark-black + .l-section--banner--dark-black {
 	margin-top: 0;
 }
 
@@ -100,6 +102,7 @@ a:hover {
 
 	.l-subsection--banner,
 	.l-subsection--banner--dark,
+	.l-section--banner--dark-black,
 	.c-intro {
 		padding-top: 6rem;
 		padding-bottom: 6rem;
@@ -118,7 +121,8 @@ a:hover {
 	.l-section--banner + .l-section--banner,
 	.l-subsection--banner + .l-subsection--banner,
 	.l-section--banner--dark + .l-section--banner--dark,
-	.l-subsection--banner--dark + .l-subsection--banner--dark, {
+	.l-subsection--banner--dark + .l-subsection--banner--dark,
+	.l-section--banner--dark-black + .l-section--banner--dark-black {
 		margin-top: 0;
 	}
 }

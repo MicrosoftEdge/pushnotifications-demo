@@ -31,18 +31,27 @@
 		</div>
 	</header>
 	<main role="main">
-		<div class="intro l-section--banner--dark">
+		<div class="intro l-section--banner--dark-black">
             <section class="intro__section l-contain">
                 <h1 class="intro__heading">Push Notifications</h1>
+                <img src="images/header-embellishment.svg" class="heading__image" role="presentation" />
                 <div class="intro__section__overview l-subsection" id="intro" data-nav-label="Introduction">
                     <p class="highlight h3">Welcome to the future of the web……where push messages can help you achieve what apps have long been able to do.</p>
-                    <p class="highlight h3">It goes without saying that push notifications expand your reach to your users in a timely, power-efficient and dependable way. Users are re-engaged with customized and relevant content that will have them coming back for more.</p>
-                    <p class="highlight">Inspired by the parallels between basic astrological ideas and push notification architecture, come join us on this journey to better understand how to set up your site – both the front-end and the back-end – to send push messages to a user without needing the browser or app to be opened. You can fork this tutorial itself on GitHub and even set it up locally so that you can play with it.</p>
-                    <p class="highlight">To see it in action, click the button below and then immediately close this tab (or browser). You should get a notification within 5 seconds after clicking the button below. Don’t worry, when you click the notification, it’ll take you right back here, so you can continue learning about push messages. </p>
-                    <button class="btn--action" id="initiate-push" disabled="disabled">Initiating...</button>
+                    <div class="l-flex--guide l-subsection">
+                        <div class="guide-col-main--alt">
+                            <p>It goes without saying that push notifications expand your reach to your users in a timely, power-efficient and dependable way. Users are re-engaged with customized and relevant content that will have them coming back for more.</p>
+                            <p>Inspired by the parallels between basic astrological ideas and push notification architecture, come join us on this journey to better understand how to set up your site – both the front-end and the back-end – to send push messages to a user without needing the browser or app to be opened. You can fork this tutorial itself on GitHub and even set it up locally so that you can play with it.</p>
+                            <p>To see it in action, click the button below and then immediately close this tab (or browser). You should get a notification within 5 seconds after clicking the button below. Don’t worry, when you click the notification, it’ll take you right back here, so you can continue learning about push messages. </p>
+                            <button class="btn--action" id="initiate-push" disabled="disabled">Initiating...</button>
+                        </div>
+                        <div class="guide-col-side">
+                            <img src="images/hero-image.svg" role="presentation" />
+                        </div>                            
+                    </div>
                 </div>
             </section>
-            <img src="images/top-star-chart.svg" class="intro-image" role="presentation" alt="" />
+        </div>
+        <div class="l-section--banner--dark">
             <div class="intro__section__cards">
                 <section class="intro__section l-section" id="different-pieces" data-nav-label="The Different Pieces">
                     <h2>The different pieces</h2>
@@ -70,11 +79,12 @@
                                     <img src="images/client-side.svg" role="presentation" alt="" />
                             </div>
                             <div class="card--bottom">
-                                <p class="card--caption">The client side of push notifications, the browser or user agent and the app page, represented by the terrestrial plane where the updates from the zodiac are routed through and displayed.</p>
+                                <p class="card--caption">The client side of push notifications, the browser or user agent and the app page, is represented by the terrestrial plane (earth) where the updates from the zodiac are routed through and displayed.</p>
                             </div>
                         </div>
                     </div>
                     <div class="l-subsection l-contain subsection-dark">
+                        <p class="highlight">Before we explore building out a push notification in depth.</p>
                         <div class="l-flex--halves">
                             <div class="chart">
                                 <div class="chart--illustration">
