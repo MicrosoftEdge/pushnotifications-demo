@@ -100,9 +100,8 @@ a:hover {
 		margin-top: 6rem;
 	}
 
-	.l-subsection--banner,
-	.l-subsection--banner--dark,
-	.l-section--banner--dark-black,
+	.l-section--banner,
+	.l-section--banner--dark,
 	.c-intro {
 		padding-top: 6rem;
 		padding-bottom: 6rem;

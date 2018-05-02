@@ -148,9 +148,13 @@ h3,
 
 /* Only apply dark background style to subsection */
 .subsection-dark {
+	padding-top: 3rem;
 	background-color: #202020;
 }
 
+.wrap {
+	flex-wrap: wrap;
+}
 
 /*
  *	DEMO SECTION STYLES
@@ -184,9 +188,18 @@ h3,
     z-index: 0;
 }
 
+.heading__image-background {
+	position: absolute;
+	left: -3rem;
+	top: 15rem;
+	width: 65%;
+	z-index: 0;
+}
+
 .intro__section {
 	position: relative;
 	z-index: 20;
+	margin-top: 3rem
 }
 
 .intro-image {
@@ -211,7 +224,8 @@ h3,
 }
 
 .intro__section__overview .highlight,
-.intro__section__cards .highlight {
+.intro__section__cards .highlight,
+.outro__highlight .highlight {
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
@@ -582,7 +596,7 @@ pre code {
 .l-section--banner a:visited,
 .l-subsection--banner a:link,
 .l-subsection--banner a:visited {
-	color: #0067b8;
+	color: #202020;
 }
 
 /*
@@ -591,7 +605,7 @@ pre code {
  */
 
 .c-outro a {
-	color: #006fc6;
+	color: #202020;
 }
 
 .c-outro a:hover {
@@ -599,15 +613,15 @@ pre code {
 }
 
 a.c-outro__github {
-	background: #0078d7;
-	color: #fff;
+	background: #a5802a;
+	color: #202020;
 }
 
 a.c-outro__github:hover {
-	background: #006cc2;
+	background: #86671d;
 	color: #fff;
 }
 
 a.c-outro__github:active {
-	background: #005497;
+	background: #86671d;
 }
