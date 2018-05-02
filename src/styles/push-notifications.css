@@ -365,6 +365,12 @@ h3,
 	order: 2;
 }
 
+.callout-img--vertical {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
 code {
 	padding: .25em;
 	background: #dbccaa;
@@ -486,7 +492,16 @@ pre code {
 	align-self: center;
 }
 
-@media (min-width: 34em) {
+@media (max-width: 47rem) {
+	
+	.non-chart,
+	.chart {
+		width: 100%;
+		margin: 1.5rem auto;
+	}
+}
+
+@media (min-width: 47.1em) {
 	
 	.non-chart,
 	.chart {
@@ -495,8 +510,6 @@ pre code {
 	}
 
 }
-
-
 
 /*
  *	UNIVERSAL COMPONENTS
