@@ -72,10 +72,7 @@
                     <div class="intro__section__highlight l-subsection l-contain">
                         <div class="guide-col-main">
                             <p>
-                                At a high-level, there are four major pieces to the push puzzle: the app’s server, the app’s page, the notification
-                                service’s server, and of course the user agent or browser. Each of these different pieces play a role in subscribing
-                                for the push message, sending push message updates, showing a notification and ultimately opening a page when that
-                                notification is clicked.
+                                At a high-level, there is a server-side and client-side component that makes push messages possible. The client side consists of the browser and the app’s web page while the server side involves the app’s server and the notification service’s server. Each of these different pieces play a role in subscribing for the push message, sending push message updates, showing a notification and ultimately opening a page when that notification is clicked.
                             </p>
                         </div>
                     </div>
@@ -150,28 +147,40 @@
                 <div class="l-flex--guide l-subsection">
                     <div class="guide-col-main">
                         <p>To start, you’ll first need to make sure your web server is setup to send pushes. We’ll be using a node.js server and take advantage of the open-source <a href="https://www.npmjs.com/package/web-push">web-push</a> library so that we don’t have to worry about the encryption details involved with sending a push.</p>
+                        <p>We’ll first need call <code>npm install express</code> (web server) and <code>npm install web-push</code> (web push library) from a terminal or command prompt so that we can use them in our app.</p>
                         <p>We’ll need to specify the VAPID keys that will allow identifications between our app’s server and the notification server (e.g. <a href="https://firebase.google.com/docs/cloud-messaging/">Firebase Cloud Messaging</a> (FCM), <a href="https://blog.mozilla.org/services/">Mozilla Cloud Services</a> (MCS), and <a href="https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/windows-push-notification-services--wns--overview">Windows Push Notification Service</a> (WNS) depending on which browser is being used). You only need to set up the VAPID keys once which can be generated easily:</p>
 <pre><code>var webpush = require('web-push');
 console.log(webpush.generateVAPIDKeys());</code></pre>
                         <p>Once they’re generated, you can use them for as long as you need to by setting the vapidKeys variable to what you just got when calling <code>generateVAPIDKeys()</code>:</p>
-<pre><code>var 
-  vapidKeys = { 
-publicKey: 
-  'BL6As_YCGHPf3ZeDbklyVxgvJVb4Tr5qjZFS-J7XzkT5zQNghd9iUBUsqSlVO5znwTsZZrEOx8JFRDJc1JmkymA', privateKey: 'GnMVDgbtZrqs7tgKEkJaV5aZF8cVjoq7Ncz_TEVI_lo'
-};
-
+<pre><code>var vapidPublicKey = 'BL6As_YCGHPf3ZeDbklyVxgvJVb4Tr5qjZFS-J7XzkT5zQNghd9iUBUsqSlVO5znwTsZZrEOx8JFRDJc1JmkymA';
+var vapidPrivateKey = 'GnMVDgbtZrqs7tgKEkJaV5aZF8cVjoq7Ncz_TEVI_lo';
+        
 webpush.setVapidDetails(
     'mailto:myaccount@outlook.com',
-    vapidKeys.publicKey,
-    vapidKeys.privateKey
-);</code></pre>
+    vapidPublicKey,
+    vapidPrivateKey
+);
+</code></pre>
                         <p>We’ll need to set up a few endpoints on our server so that we can provide the public key to our site. The public key will be used when subscribing for push messages so that the notifications server (e.g. WNS or FCM) can know that we are who we say we are when we send subsequent push messages.</p>
+<pre><code>var express = require('express');
+var app = express();
+
+app.get('/api/key', function(req, res) {
+    res.send({
+        key: vapidPublicKey
+    });
+});</code></pre>
                         <p>We’ll also need an endpoint that will allow us to store the subscription details for a user so that we’ll be able to push messages to them from our app’s server.</p>
+<pre><code>app.post('/api/save-subscription, function(req, res) {
+    // save req.body.subscription to a database
+
+    res.send('Success');
+});</code></pre>
                     </div>
                 </div>
                 <div class="l-flex--guide--callout l-subsection">
                     <div class="guide-col-side callout-text callout-light">
-                        <p class="highlight">In our example, we are going to be sending astrology trivia push updates to each user that is subscribed daily at 7am Pacific Time. This will be done in a cron job that runs on the server. Therefore, it’s important that we store the subscription information on the server so that we can send this update whenever we need to.</p>
+                        <p class="highlight">In our example, we are going to be sending astrology trivia push updates to each user that is subscribed daily at 7am Pacific Time. This will be done in a scheduled task that runs on the server. Therefore, it’s important that we store the subscription information on the server so that we can send this update whenever we need to.</p>
                     </div>
                     <div class="guide-col-main--alt callout-img callout-light">
                         <img src="images/cron-job.svg" class="callout-img--vertical" role="presentation" alt="" />
@@ -179,7 +188,12 @@ webpush.setVapidDetails(
                 </div>
                 <div class="l-flex--guide l-subsection">
                     <div class="guide-col-main">
-                        <p>In other examples, you can send pushes when something changes in the database, or after something changes on the site. For instance, if your site allows users to message each other and someone messages a user, you will want to send a push to that user so that they know they just got a message. Be aware that the goal is to produce a notification that will have a good chance of being clicked by the user, otherwise it might defeat the purpose. For instance, it might make more sense to not send any push messages to a user that is not on the page already since it might annoy them to get notifications when they’re already on your page. This is something that you’ll need to coordinate with the server to ensure that the user is not getting notifications when they really shouldn’t be getting them.</p>
+                        <p>You can send pushes whenever you like, such as when something changes in your database, or after something changes on your site or app. For instance, if your site allows users to message each other and someone messages a user, you will want to send a push to that user so that they know they just got a message. Be mindful that the goal is to produce a notification that will have a good chance of being clicked by the user, otherwise it might defeat the purpose. For instance, it might make more sense to not send any push messages to a user that is already on your page since it might annoy them to get notifications when they’re already there. You’ll need to coordinate with the server to ensure that users are only getting notifications when they should be getting them.</p>
+                        <p>Using the web push library, we can send a push message from the server.</p>
+<pre><code>webPush.sendNotification(savedSubscriptionData, payload)
+.then(function (response) {
+    console.log(‘sent');
+});</code></pre>
                         <p>Now that we have the server all set up, let’s move on to making the actual page that will subscribe for the push!</p>
                     </div>
                 </div>
@@ -190,42 +204,55 @@ webpush.setVapidDetails(
             <div class="l-contain side-image-left">
                 <div class="l-flex--guide l-subsection">
                     <div class="guide-col-main">
-                        <p>When the page loads, the first thing you’ll want to do is get the public key from the application server so that you can set up the push subscription. We can do this by setting up an endpoint on our server that returns the public key.</p>
-<pre><code>if (navigator.serviceWorker) 
-    {
-fetch('./api/key')
-    .then(function(res) { return res.json();
-.then(function(data)
-    { registerPush(data.key); }); } 
-</code></pre>
-                        <p>With the public key in hand, as before, we’ll need to install the service worker and also create a push subscription.</p>
-<pre><code>navigator.serviceWorker.register('service-worker.js');
-    navigator.serviceWorker.ready
-.then(function(registration)
-    { return reg.pushManager.getSubscription()
-}) .then(function(subscription)
-    { if (subscription) { return subscription; } return registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(appPubkey) }); }) .then(function(subscription) { sub = subscription.toJSON(); }); }
-    
-function
-    urlBase64ToUint8Array(base64String) { 
-const padding = '='.repeat((4 - base64String.length % 4) % 4); 
-const base64 = (base64String + padding) 
-.replace(/\-/g, '+')
-
-.replace(/_/g,
-    '/'); 
-const rawData = window.atob(base64); 
-const outputArray = new Uint8Array(rawData.length); 
-for (let i = 0; i < rawData.length; ++i)  { 
-outputArray[i]
-    = rawData.charCodeAt(i); 
-}
-    
-return
-    outputArray;
-    
+                        <p>When the page loads, the first thing you’ll want to do is get the public key from the application server so that you can set up the push subscription.</p>
+<pre><code>if (navigator.serviceWorker) {
+    fetch('./api/key')
+        .then(function(res) {
+            res.json().then(function(data) {
+                registerPush(data.key);
+            });
+        });
 }</code></pre>
-                        <p>You can check a full working version of this code in the <a href="https://github.com/MicrosoftEdge/pushnotifications-demo">GitHub repository</a>.</p>
+                        <p>Now, with the public key in hand, we’ll need to install the service worker and also create a push subscription.</p>
+<pre><code>function registerPush(appPubkey) {
+    navigator.serviceWorker.register('service-worker.js');
+    navigator.serviceWorker.ready.then(function(registration) {
+        return reg.pushManager.getSubscription()
+            .then(function(subscription) {
+                if (subscription) {
+                    return subscription;
+                }
+
+                return registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array(appPubkey)
+                });
+            }) 
+            .then(function(subscription) {
+                return fetch('./api/save-subscription', {
+                    method: 'post',
+                    headers: { 'Content-type': 'application/json' },
+                    body: JSON.stringify({ subscription: subscription })
+                });
+            });
+    });
+}
+
+function urlBase64ToUint8Array(base64String) {
+    var padding = '='.repeat((4 - base64String.length % 4) % 4);
+    var base64 = (base64String + padding)
+        .replace(/\-/g, '+')
+        .replace(/_/g, '/');
+
+    var rawData = window.atob(base64);
+    var outputArray = new Uint8Array(rawData.length);
+
+    for (var i = 0; i < rawData.length; ++i)  {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+
+    return outputArray;
+}</code></pre>
                         <p>We’ll need to make sure that we have an active service worker before we attempt to subscribe for push. We can do this by using <code>navigator.serviceWorker.ready</code> which will resolve when a service worker is active.</p>
                     </div>
                 </div>
@@ -254,7 +281,8 @@ return
     event.notification.close();
     event.waitUntil(clients.openWindow('weather/advisory'));
 }</code></pre>
-                        <p>You’re also able to sort through the already open windows and focus one of those, or perhaps even navigate an existing window. </p>
+                        <p>You’re also able to sort through the already open windows and focus one of those, or perhaps even navigate an existing window.</p>
+                        <p>As a reminder, you can check out a fully working version of this demo on the <a href="https://github.com/MicrosoftEdge/pushnotifications-demo">GitHub repo</a>.</p>
                     </div>
                 </div>
             </div>

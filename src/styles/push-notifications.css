@@ -33,11 +33,15 @@ a:hover {
 	color: #666;
 }
 
-.l-section--banner--dark a:link, a:visited {
+.l-section--banner--dark a:link,
+.l-section--banner--dark a:visited,
+.l-section--banner--dark-black a:link,
+.l-section--banner--dark-black a:visited {
 	color: #dbccaa;
 }
 
-.l-section--banner--dark a:hover {
+.l-section--banner--dark a:hover,
+.l-section--banner--dark-black a:hover {
 	color: #c3a86f;
 }
 
