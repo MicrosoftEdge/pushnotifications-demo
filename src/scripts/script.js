@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if (navigator.serviceWorker) {
         registerServiceWorker().then(function() {
             pushBtn.removeAttribute('disabled');
-            pushBtn.innerText = 'Initiate Push';
+            pushBtn.innerText = 'Initiate push';
             pushBtn.addEventListener('click', function(event) {
                 event.preventDefault();
                 registerPush().then(function(sub) {

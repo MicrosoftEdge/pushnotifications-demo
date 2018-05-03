@@ -7,8 +7,21 @@
 	<meta name="og:title" content="Push Notifications">
 	<meta name="description" content="[Used as description in any teasers of this demo on dev.microsoftedge.com]">
 	<meta name="keywords" content="PWAS, push notifications, service worker">
-	<meta name="author" content="ststimac, aliams, molant">
+    <meta name="author" content="ststimac, aliams, molant">
+    
+    <meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@msedgedev">
+	<meta name="twitter:title" content="Push Notifiations Demo">
+	<meta name="twitter:description" content="OpenType Font Variations make it possible to access multiple typefaces within a family from a single resource. Take an expedition into the typographical variety available via variable fonts">
+	<meta name="twitter:image" content="images/social-image.jpg">
 
+	<meta property="og:title" content="Push Notifiations Demo">
+	<meta property="og:description" content="">
+	<meta property="og:site_name" content="Microsoft Edge Demos">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:image" content="images/social-image.jpg">
+
+    <link rel="icon" href="images/favicon.png">
 	<link rel="stylesheet" href="https://az813057.vo.msecnd.net/styles/fonts-full-20180102.css">
 	<link rel="stylesheet" href="styles/demo-template.css">
 	<link rel="stylesheet" href="styles/push-notifications.css">
@@ -174,7 +187,7 @@ webpush.setVapidDetails(
         </section>
         <section class="l-section l-section--banner--dark" id="setup-page" data-nav-label="Set up your web page">
             <h2><span class="title-step">Step 2</span> Set up your web page</h2>
-            <div class="l-contain">
+            <div class="l-contain side-image-left">
                 <div class="l-flex--guide l-subsection">
                     <div class="guide-col-main">
                         <p>When the page loads, the first thing you’ll want to do is get the public key from the application server so that you can set up the push subscription. We can do this by setting up an endpoint on our server that returns the public key.</p>
@@ -198,7 +211,7 @@ function
 const padding = '='.repeat((4 - base64String.length % 4) % 4); 
 const base64 = (base64String + padding) 
 .replace(/\-/g, '+')
-    
+
 .replace(/_/g,
     '/'); 
 const rawData = window.atob(base64); 
@@ -211,9 +224,7 @@ outputArray[i]
 return
     outputArray;
     
-}
-
-</code></pre>
+}</code></pre>
                         <p>You can check a full working version of this code in the <a href="https://github.com/MicrosoftEdge/pushnotifications-demo">GitHub repository</a>.</p>
                         <p>We’ll need to make sure that we have an active service worker before we attempt to subscribe for push. We can do this by using <code>navigator.serviceWorker.ready</code> which will resolve when a service worker is active.</p>
                     </div>
@@ -242,7 +253,7 @@ return
 <pre><code>self.onnotificationclick = function(event) {
     event.notification.close();
     event.waitUntil(clients.openWindow('weather/advisory'));
-} </code></pre>
+}</code></pre>
                         <p>You’re also able to sort through the already open windows and focus one of those, or perhaps even navigate an existing window. </p>
                     </div>
                 </div>

@@ -288,6 +288,14 @@ h3,
     background-size: 49%;
 }
 
+.side-image-left {
+	background-image: url("../images/side-signs.svg");
+    background-repeat: no-repeat;
+    background-position: left 0;
+    background-attachment: fixed;
+    background-size: 49%;
+}
+
 .guide-col-main {
 	width: 100%;
 	margin-left: auto;
