@@ -14,7 +14,7 @@ self.addEventListener('push', function(event) {
     event.waitUntil(
         registration.showNotification('Web Push Test', {
             body: event.data.text(),
-            icon: 'push.jpg'
+            icon: 'images/toast-image.jpg'
         })
     );
 });
