@@ -282,6 +282,8 @@ h3,
 
 .guide-col-main {
 	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .guide-col-side {
@@ -618,7 +620,7 @@ pre code {
  */
 
 .c-outro a {
-	color: #202020;
+	color: #000;
 }
 
 .c-outro a:hover {
@@ -627,7 +629,7 @@ pre code {
 
 a.c-outro__github {
 	background: #a5802a;
-	color: #202020;
+	color: #000;
 }
 
 a.c-outro__github:hover {
