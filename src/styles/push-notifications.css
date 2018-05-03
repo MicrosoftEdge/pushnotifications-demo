@@ -33,6 +33,14 @@ a:hover {
 	color: #666;
 }
 
+.l-section--banner--dark a:link, a:visited {
+	color: #dbccaa;
+}
+
+.l-section--banner--dark a:hover {
+	color: #c3a86f;
+}
+
 /*
  *	FORM ELEMENTS
  *	---------------------------------------------

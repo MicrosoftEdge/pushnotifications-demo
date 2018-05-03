@@ -57,12 +57,14 @@
                 <section class="intro__section" id="different-pieces" data-nav-label="The different pieces">
                     <h2>The different pieces</h2>
                     <div class="intro__section__highlight l-subsection l-contain">
-                        <p class="highlight">
-                            At a high-level, there are four major pieces to the push puzzle: the app’s server, the app’s page, the notification
-                            service’s server, and of course the user agent or browser. Each of these different pieces play a role in subscribing
-                            for the push message, sending push message updates, showing a notification and ultimately opening a page when that
-                            notification is clicked.
-                        </p>
+                        <div class="guide-col-main">
+                            <p>
+                                At a high-level, there are four major pieces to the push puzzle: the app’s server, the app’s page, the notification
+                                service’s server, and of course the user agent or browser. Each of these different pieces play a role in subscribing
+                                for the push message, sending push message updates, showing a notification and ultimately opening a page when that
+                                notification is clicked.
+                            </p>
+                        </div>
                     </div>
                     <div class="l-flex--halves l-flex-center l-subsection l-contain">
                         <div class="card card--right">
@@ -85,8 +87,10 @@
                         </div>
                     </div>
                     <div class="l-subsection l-contain subsection-dark">
-                        <p class="highlight">Before we explore building out a push notification in depth, let's break down the interaction between front-end and back-end.</p>
-                        <div class="l-flex--halves">
+                        <div class="guide-col-main">
+                            <p>Before we explore building out a push notification in depth, let's break down the interaction between front-end and back-end.</p>
+                        </div>
+                            <div class="l-flex--halves">
                             <div class="chart">
                                 <div class="chart--illustration">
                                     <img src="images/astrology-demo_chart-1.svg" role="presentation" alt="" />
@@ -137,8 +141,11 @@
 <pre><code>var webpush = require('web-push');
 console.log(webpush.generateVAPIDKeys());</code></pre>
                         <p>Once they’re generated, you can use them for as long as you need to by setting the vapidKeys variable to what you just got when calling <code>generateVAPIDKeys()</code>:</p>
-<pre><code>var vapidKeys = { publicKey: 'BL6As_YCGHPf3ZeDbklyVxgvJVb4Tr5qjZFS-J7XzkT5zQNghd9iUBUsqSlVO5znwTsZZrEOx8JFRDJc1JmkymA',
-privateKey: 'GnMVDgbtZrqs7tgKEkJaV5aZF8cVjoq7Ncz_TEVI_lo'};
+<pre><code>var 
+  vapidKeys = { 
+publicKey: 
+  'BL6As_YCGHPf3ZeDbklyVxgvJVb4Tr5qjZFS-J7XzkT5zQNghd9iUBUsqSlVO5znwTsZZrEOx8JFRDJc1JmkymA', privateKey: 'GnMVDgbtZrqs7tgKEkJaV5aZF8cVjoq7Ncz_TEVI_lo'
+};
 
 webpush.setVapidDetails(
     'mailto:myaccount@outlook.com',
@@ -171,47 +178,43 @@ webpush.setVapidDetails(
                 <div class="l-flex--guide l-subsection">
                     <div class="guide-col-main">
                         <p>When the page loads, the first thing you’ll want to do is get the public key from the application server so that you can set up the push subscription. We can do this by setting up an endpoint on our server that returns the public key.</p>
-<pre><code>if (navigator.serviceWorker) {fetch('./api/key')
-    .then(function(res) {
-        res.json().then(function(data) {
-            registerPush(data.key);
-        });
-    });
-} </code></pre>
+<pre><code>if (navigator.serviceWorker) 
+    {
+fetch('./api/key')
+    .then(function(res) { return res.json();
+.then(function(data)
+    { registerPush(data.key); }); } 
+</code></pre>
                         <p>With the public key in hand, as before, we’ll need to install the service worker and also create a push subscription.</p>
 <pre><code>navigator.serviceWorker.register('service-worker.js');
-navigator.serviceWorker.ready.then(function(registration) {
-return reg.pushManager.getSubscription()
-    .then(function(subscription) {
-        if (subscription) {
-            return subscription;
-        }
-
-        return registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(appPubkey)
-        });
-    })
-    .then(function(subscription) {
-        sub = subscription.toJSON();
-    });
-});
-}
-
-function urlBase64ToUint8Array(base64String) {
-const padding = '='.repeat((4 - base64String.length % 4) % 4);
-const base64 = (base64String + padding)
+    navigator.serviceWorker.ready
+.then(function(registration)
+    { return reg.pushManager.getSubscription()
+}) .then(function(subscription)
+    { if (subscription) { return subscription; } return registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(appPubkey) }); }) .then(function(subscription) { sub = subscription.toJSON(); }); }
+    
+function
+    urlBase64ToUint8Array(base64String) { 
+const padding = '='.repeat((4 - base64String.length % 4) % 4); 
+const base64 = (base64String + padding) 
 .replace(/\-/g, '+')
-.replace(/_/g, '/');
-
-const rawData = window.atob(base64);
-const outputArray = new Uint8Array(rawData.length);
-
-for (let i = 0; i &lt; rawData.length; ++i)  {
-outputArray[i] = rawData.charCodeAt(i);
+    
+.replace(/_/g,
+    '/'); 
+const rawData = window.atob(base64); 
+const outputArray = new Uint8Array(rawData.length); 
+for (let i = 0; i < rawData.length; ++i)  { 
+outputArray[i]
+    = rawData.charCodeAt(i); 
+}
+    
+return
+    outputArray;
+    
 }
 
-return outputArray;</code></pre>
+</code></pre>
+                        <p>You can check a full working version of this code in the <a href="https://github.com/MicrosoftEdge/pushnotifications-demo">GitHub repository</a>.</p>
                         <p>We’ll need to make sure that we have an active service worker before we attempt to subscribe for push. We can do this by using <code>navigator.serviceWorker.ready</code> which will resolve when a service worker is active.</p>
                     </div>
                 </div>
@@ -250,7 +253,7 @@ return outputArray;</code></pre>
             <div class="l-contain">
                 <div class="l-subsection l-flex--guide">
                     <div class="guide-col-main">
-                        <p>Great, so now we have a fully working push site. It’s time for you to get your hands dirty and see what you can come up with. Make sure you upgrade to the latest version of Windows which comes with Edge that supports service workers and push. We’d love to hear from you if you have any questions or find any bugs. Please let us know! </p>
+                        <p>Great, so now we have a fully working push site. It’s time for you to get your hands dirty and see what you can come up with. Make sure you upgrade to the latest version of Windows which comes with Edge 17 that supports service workers and push. We’d love to hear from you if you have any questions or find any bugs. Please let us know! </p>
                     </div>
                 </div>
             </div>
