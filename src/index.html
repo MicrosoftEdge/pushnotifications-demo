@@ -5,18 +5,18 @@
 	<title>Push Notifications Demo | Microsoft Edge Demos</title>
 	<meta name="viewport" content="width=device-width">
 	<meta name="og:title" content="Push Notifications">
-	<meta name="description" content="[Used as description in any teasers of this demo on dev.microsoftedge.com]">
+	<meta name="description" content="Push notifications can help you achieve what apps have long been able to do. Join us as we explore how to build the front-end and back-end of a push notification">
 	<meta name="keywords" content="PWAS, push notifications, service worker">
     <meta name="author" content="ststimac, aliams, molant">
     
     <meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:site" content="@msedgedev">
 	<meta name="twitter:title" content="Push Notifiations Demo">
-	<meta name="twitter:description" content="OpenType Font Variations make it possible to access multiple typefaces within a family from a single resource. Take an expedition into the typographical variety available via variable fonts">
+	<meta name="twitter:description" content="Push notifications can help you achieve what apps have long been able to do. Join us as we explore how to build the front-end and back-end of a push notification">
 	<meta name="twitter:image" content="images/social-image.jpg">
 
 	<meta property="og:title" content="Push Notifiations Demo">
-	<meta property="og:description" content="">
+	<meta property="og:description" content="Push notifications can help you achieve what apps have long been able to do. Join us as we explore how to build the front-end and back-end of a push notification">
 	<meta property="og:site_name" content="Microsoft Edge Demos">
 	<meta property="og:locale" content="en_US">
 	<meta property="og:image" content="images/social-image.jpg">
@@ -147,7 +147,7 @@
                 <div class="l-flex--guide l-subsection">
                     <div class="guide-col-main">
                         <p>To start, you’ll first need to make sure your web server is setup to send pushes. We’ll be using a node.js server and take advantage of the open-source <a href="https://www.npmjs.com/package/web-push">web-push</a> library so that we don’t have to worry about the encryption details involved with sending a push.</p>
-                        <p>We’ll first need call <code>npm install express</code> (web server) and <code>npm install web-push</code> (web push library) from a terminal or command prompt so that we can use them in our app.</p>
+                        <p>We’ll first need to call <code>npm install express</code> (web server) and <code>npm install web-push</code> (web push library) from a terminal or command prompt so that we can use them in our app.</p>
                         <p>We’ll need to specify the VAPID keys that will allow identifications between our app’s server and the notification server (e.g. <a href="https://firebase.google.com/docs/cloud-messaging/">Firebase Cloud Messaging</a> (FCM), <a href="https://blog.mozilla.org/services/">Mozilla Cloud Services</a> (MCS), and <a href="https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/windows-push-notification-services--wns--overview">Windows Push Notification Service</a> (WNS) depending on which browser is being used). You only need to set up the VAPID keys once which can be generated easily:</p>
 <pre><code>var webpush = require('web-push');
 console.log(webpush.generateVAPIDKeys());</code></pre>
@@ -191,9 +191,10 @@ app.get('/api/key', function(req, res) {
                         <p>You can send pushes whenever you like, such as when something changes in your database, or after something changes on your site or app. For instance, if your site allows users to message each other and someone messages a user, you will want to send a push to that user so that they know they just got a message. Be mindful that the goal is to produce a notification that will have a good chance of being clicked by the user, otherwise it might defeat the purpose. For instance, it might make more sense to not send any push messages to a user that is already on your page since it might annoy them to get notifications when they’re already there. You’ll need to coordinate with the server to ensure that users are only getting notifications when they should be getting them.</p>
                         <p>Using the web push library, we can send a push message from the server.</p>
 <pre><code>webPush.sendNotification(savedSubscriptionData, payload)
-.then(function (response) {
-    console.log(‘sent');
-});</code></pre>
+    .then(function (response) {
+        console.log('sent');
+    });
+    </code></pre>
                         <p>Now that we have the server all set up, let’s move on to making the actual page that will subscribe for the push!</p>
                     </div>
                 </div>
@@ -247,7 +248,7 @@ function urlBase64ToUint8Array(base64String) {
     var rawData = window.atob(base64);
     var outputArray = new Uint8Array(rawData.length);
 
-    for (var i = 0; i < rawData.length; ++i)  {
+    for (var i = 0; i &lt; rawData.length; ++i)  {
         outputArray[i] = rawData.charCodeAt(i);
     }
 
