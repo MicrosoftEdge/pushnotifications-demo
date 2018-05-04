@@ -168,6 +168,13 @@ h3,
 	flex-wrap: wrap;
 }
 
+@media (max-width: 24em) {
+
+	h1 {
+		font-size: 3rem;
+	}
+}
+
 /*
  *	DEMO SECTION STYLES
  *	=============================================
@@ -180,7 +187,7 @@ h3,
 
 .intro__heading {
     position: relative;
-    max-width: 33rem;
+    max-width: 40rem;
     margin: 0 auto;
     padding: .5rem 1rem;
     background-color: #000;
@@ -412,6 +419,7 @@ pre code {
 	tab-size: 3;
 	background: #dbccaa;
 	color: #000;
+	word-break: break-all;
 }
 
 @media (min-width: 47em) {
@@ -503,7 +511,7 @@ pre code {
 	position: relative;
 	flex: 1 1 20rem;
 	margin: 1.5rem 0;
-	max-width: 30rem;
+	max-width: 35rem;
 	background-color: #202020;
 }
 
@@ -515,7 +523,7 @@ pre code {
 	align-self: center;
 }
 
-@media (max-width: 47rem) {
+@media (max-width: 34em) {
 	
 	.non-chart,
 	.chart {
@@ -524,7 +532,7 @@ pre code {
 	}
 }
 
-@media (min-width: 47.1em) {
+@media (min-width: 34.1em) {
 	
 	.non-chart,
 	.chart {

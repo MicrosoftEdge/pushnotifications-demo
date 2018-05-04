@@ -36,7 +36,7 @@
 	};
 
 	var insertAlert = function() {
-		var featureAlertMsg = '<strong>Notice:</strong> This page demonstrates [feature], which is not supported in your browser version. For the full experience, please view in Microsoft Edge [build #/version info] or <a href="https://status.microsoftedge.com">any browser that supports [feature]</a>.',
+		var featureAlertMsg = '<strong>Notice:</strong> This page demonstrates web push notifications, which is not supported in your browser version. For the full experience, please view in Microsoft Edge build 17603+ or <a href="https://developer.microsoft.com/en-us/microsoft-edge/platform/status/pushapi/">any browser that supports web push notifications</a>.',
 			featureAlert = document.createElement('div');
 
 		featureAlert.className = 'c-alert c-alert--error';
