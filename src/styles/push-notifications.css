@@ -307,6 +307,14 @@ h3,
     background-size: 49%;
 }
 
+.moon-background {
+	background-image: url("../images/try-it-out.svg");
+    background-repeat: no-repeat;
+    background-position: center left;
+    background-attachment: fixed;
+    background-size: 100%;	
+}
+
 .guide-col-main {
 	width: 100%;
 	margin-left: auto;
@@ -622,17 +630,17 @@ pre code {
 
 .l-section--banner,
 .l-subsection--banner {
-	background: #f2f2f2;
+	background-color: #f2f2f2;
 }
 
 .l-section--banner--dark,
 .l-subsection--banner--dark {
-	background: #202020;
+	background-color: #202020;
 	color: #fff;
 }
 
 .l-section--banner--dark-black {
-	background: #0c0c0c;
+	background-color: #0c0c0c;
 	color: #fff;
 }
 
