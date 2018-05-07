@@ -16,6 +16,13 @@ function resetServiceWorkerAndPush() {
         });
 }
 
+function subscribePushAndUpdateButtons(registration) {
+    return subscribePush(registration).then(function(subscription) {
+        updateUnsubscribeButtons();
+        return subscription;
+    });
+}
+
 function registerPush() {
     return navigator.serviceWorker.ready
         .then(function(registration) {
@@ -23,15 +30,16 @@ function registerPush() {
                 if (subscription) {
                     // renew subscription if we're within 5 days of expiration
                     if (subscription.expirationTime && Date.now() > subscription.expirationTime - 432000000) {
-                        return subscription.unsubscribe().then(function() {
-                            return subscribePush(registration);
+                        return unsubscribePush().then(function() {
+                            updateUnsubscribeButtons();
+                            return subscribePushAndUpdateButtons(registration);
                         });
                     }
 
                     return subscription;
                 }
 
-                return subscribePush(registration);
+                return subscribePushAndUpdateButtons(registration);
             });
         })
         .then(function(subscription) {
@@ -62,6 +70,54 @@ function sendMessage(sub, title, message, delay) {
     });
 }
 
+function getPushSubscription() {
+    return navigator.serviceWorker.ready
+        .then(function(registration) {
+            return registration.pushManager.getSubscription();
+        });
+}
+
+function unsubscribePush() {
+    return getPushSubscription().then(function(subscription) {
+        return subscription.unsubscribe().then(function() {
+            deleteSubscription(subscription);
+        });
+    });
+}
+
+function updateUnsubscribeButtons() {
+    const unsubBtn = document.getElementById('unsubscribe-push');
+    const unsubBtn2 = document.getElementById('unsubscribe-push-2');
+
+    const fn = function(event) {
+        event.preventDefault();
+        unsubscribePush().then(function() {
+            updateUnsubscribeButtons();
+        });
+    };
+
+    return getPushSubscription()
+        .then(function(subscription) {
+            if (subscription) {
+                unsubBtn.removeAttribute('disabled');
+                unsubBtn.innerText = 'Unsubscribe from push';
+                unsubBtn2.removeAttribute('disabled');
+                unsubBtn2.innerText = 'Unsubscribe from push';
+
+                unsubBtn.addEventListener('click', fn);
+                unsubBtn2.addEventListener('click', fn);
+            } else {
+                unsubBtn.setAttribute('disabled', 'disabled');
+                unsubBtn.innerText = 'Not subscribed';
+                unsubBtn2.setAttribute('disabled', 'disabled');
+                unsubBtn2.innerText = 'Not subscribed';
+
+                unsubBtn.removeEventListener('click', fn);
+                unsubBtn2.removeEventListener('click', fn);
+            }
+        });
+}
+
 document.addEventListener('DOMContentLoaded', function(event) {
     const pushBtn = document.getElementById('initiate-push');
     const pushBtn2 = document.getElementById('initiate-push-2');
@@ -85,6 +141,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
                     sendMessage(sub, 'Cool!', 'It works!');
                 });
             });
+            updateUnsubscribeButtons();
         });
     } else {
         // service worker is not supported, so it won't work!
