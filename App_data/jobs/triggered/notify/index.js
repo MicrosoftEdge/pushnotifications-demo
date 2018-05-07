@@ -10,9 +10,15 @@ const init = async function() {
     const readFile = util.promisify(fs.readFile);
     let pushMessage = "Come visit us again. We miss you!";
 
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    const diff = now - start;
+    const oneDay = 1000 * 60 * 60 * 24;
+    const day = Math.floor(diff / oneDay);
+
     try {
         const triviaFileContents = await readFile('trivia.json');
-        pushMessage = JSON.parse(triviaFileContents).trivia[0];
+        pushMessage = JSON.parse(triviaFileContents).trivia[day % trivia.length];
     } catch (e) {
         console.error(e);
     }
