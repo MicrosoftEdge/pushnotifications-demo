@@ -89,6 +89,13 @@ function updateUnsubscribeButtons() {
     const unsubBtn = document.getElementById('unsubscribe-push');
     const unsubBtn2 = document.getElementById('unsubscribe-push-2');
 
+    if (!(navigator.serviceWorker && 'PushManager' in window)) {
+        // service worker is not supported, so it won't work!
+        unsubBtn.innerText = 'SW & Push are Not Supported';
+        unsubBtn2.innerText = 'SW & Push are Not Supported';
+        return;
+    }
+
     const fn = function(event) {
         event.preventDefault();
         unsubscribePush().then(function() {
@@ -122,30 +129,31 @@ document.addEventListener('DOMContentLoaded', function(event) {
     const pushBtn = document.getElementById('initiate-push');
     const pushBtn2 = document.getElementById('initiate-push-2');
 
-    if (navigator.serviceWorker) {
-        registerServiceWorker().then(function() {
-            pushBtn.removeAttribute('disabled');
-            pushBtn2.removeAttribute('disabled');
-            pushBtn.innerText = 'Initiate push';
-            pushBtn2.innerText = 'Initiate push';
-            pushBtn.addEventListener('click', function(event) {
-                event.preventDefault();
-                registerPush().then(function(sub) {
-                    sendMessage(sub, 'Interested in how to do this?',
-                        'Click on this notification to get back to the tutorial to learn how to do this!', 5000);
-                });
-            });
-            pushBtn2.addEventListener('click', function(event) {
-                event.preventDefault();
-                registerPush().then(function(sub) {
-                    sendMessage(sub, 'Cool!', 'It works!');
-                });
-            });
-            updateUnsubscribeButtons();
-        });
-    } else {
+    if (!(navigator.serviceWorker && 'PushManager' in window)) {
         // service worker is not supported, so it won't work!
         pushBtn.innerText = 'SW & Push are Not Supported';
         pushBtn2.innerText = 'SW & Push are Not Supported';
+        return;
     }
+
+    registerServiceWorker().then(function() {
+        pushBtn.removeAttribute('disabled');
+        pushBtn2.removeAttribute('disabled');
+        pushBtn.innerText = 'Initiate push';
+        pushBtn2.innerText = 'Initiate push';
+        pushBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            registerPush().then(function(sub) {
+                sendMessage(sub, 'Interested in how to do this?',
+                    'Click on this notification to get back to the tutorial to learn how to do this!', 5000);
+            });
+        });
+        pushBtn2.addEventListener('click', function(event) {
+            event.preventDefault();
+            registerPush().then(function(sub) {
+                sendMessage(sub, 'Cool!', 'It works!');
+            });
+        });
+        updateUnsubscribeButtons();
+    });
 });
