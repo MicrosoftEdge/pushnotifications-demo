@@ -35,7 +35,6 @@ app.post('/api/subscribe', async function(req, res) {
         const exists = await Subscription.findOne({ endpoint: sub.endpoint });
 
         if (exists) {
-            // Maybe refresh the subscription info?
             res.status(400).send('Subscription already exists');
 
             return;
@@ -92,7 +91,7 @@ app.post('/api/notify-demo', async function(req, res) {
     try {
         const ObjectId = require('mongoose').Types.ObjectId;
         const sub = await Subscription.findOne({ _id: new ObjectId("55555f987beff227a8455555") });
-        await configuredWebPush.webPush.sendNotification(sub, 'Hello there!', { contentEncoding: 'aes128gcm' })
+        await configuredWebPush.webPush.sendNotification(sub, JSON.stringify({title: 'Annoyed yet?', message: 'Hello there!'}), { contentEncoding: 'aes128gcm' })
             .then(function (response) {
                 console.log('Response: ' + JSON.stringify(response, null, 4));
                 res.status(201).send(response);
