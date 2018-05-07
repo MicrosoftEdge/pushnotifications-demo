@@ -218,7 +218,7 @@ app.get('/api/key', function(req, res) {
 <pre><code>function registerPush(appPubkey) {
     navigator.serviceWorker.register('service-worker.js');
     navigator.serviceWorker.ready.then(function(registration) {
-        return reg.pushManager.getSubscription()
+        return registration.pushManager.getSubscription()
             .then(function(subscription) {
                 if (subscription) {
                     return subscription;
@@ -268,20 +268,20 @@ function urlBase64ToUint8Array(base64String) {
                 <div class="l-flex--guide l-subsection">
                     <div class="guide-col-main">
                         <p>To create a push subscription, you’ll need to set the <code>userVisibleOnly</code> option to “true” – meaning a notification must be shown as a result of a push – and provide a valid <code>applicationServerKey</code>. If there is already a push subscription, there is no need to subscribe again. That said, we’ll want to first check if there’s an existing push subscription and use that first.</p>
-                        <p>At any point when a push is received by the client, a corresponding service worker is run to handle the push event. As part of this push handling, a notification must be shown so that the user understands that something is happening in the background. In the service worker (sw.js), we will handle the <code>onpush</code> event and show a notification:</p>
-<pre><code>self.onpush = function(event) {
+                        <p>At any point when a push is received by the client, a corresponding service worker is run to handle the push event. As part of this push handling, a notification must be shown so that the user understands that something is happening in the background. In the service worker (sw.js), we will handle the <code>push</code> event and show a notification:</p>
+<pre><code>self.addEventListener('push', function(event) {
     event.waitUntil(
         registration.showNotification('WEATHER ADVISORY', {
             body: event.data ? event.data.text() : 'no payload',
             icon: 'icon.png'
         })
     );
-} </code></pre>
-                        <p>After a notification is shown, there is still the matter of dealing with when it’s been clicked. As such, we need to have another event listener in the service worker that would handle this case. In the same service worker, we will handle the <code>onnotificationclick</code> event to close the notification and then open a new window for our site:</p>
-<pre><code>self.onnotificationclick = function(event) {
+});</code></pre>
+                        <p>After a notification is shown, there is still the matter of dealing with when it’s been clicked. As such, we need to have another event listener in the service worker that would handle this case. In the same service worker, we will handle the <code>notificationclick</code> event to close the notification and then open a new window for our site:</p>
+<pre><code>self.addEventListener('notificationclick', function(event) {
     event.notification.close();
     event.waitUntil(clients.openWindow('weather/advisory'));
-}</code></pre>
+});</code></pre>
                         <p>You’re also able to sort through the already open windows and focus one of those, or perhaps even navigate an existing window.</p>
                         <p>It’s now time to give it a try! The button below will send a message to the application server to send along a push request to the push service’s server so that your machine can get a push notification.</p>
                         <button class="btn--action" id="initiate-push-2" disabled="disabled">Initiating...</button>

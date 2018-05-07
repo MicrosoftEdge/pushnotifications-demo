@@ -58,7 +58,9 @@
 	};
 
 	/* Add your own feature query conditions here, run insertAlert() only if false */
-	insertAlert();
+	if (!(navigator.serviceWorker && 'PushManager' in window)) {
+		insertAlert();
+	}
 }());
 
 /*
