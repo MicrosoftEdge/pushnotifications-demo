@@ -11,9 +11,11 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('push', function(event) {
+    const data = JSON.parse(event.data.text());
+
     event.waitUntil(
-        registration.showNotification('Web Push Test', {
-            body: event.data.text(),
+        registration.showNotification(data.title, {
+            body: data.message,
             icon: 'images/toast-image.jpg'
         })
     );

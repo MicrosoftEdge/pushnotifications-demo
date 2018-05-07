@@ -63,21 +63,28 @@ app.post('/api/unsubscribe', async function(req, res) {
 });
 
 app.post('/api/notify', async function(req, res) {
-    try {
-        const data = req.body;
-        
-        await configuredWebPush.webPush.sendNotification(data.subscription, data.payload, { contentEncoding: data.encoding })
-            .then(function (response) {
-                console.log('Response: ' + JSON.stringify(response, null, 4));
-                res.status(201).send(response);
-            })
-            .catch(function (e) {
-                console.log('Error: ' + JSON.stringify(e, null, 4));
-                res.status(201).send(e);
-            });
-    } catch (e) {
-        res.status(500)
-            .send(e.message);
+    const data = req.body;
+
+    const sendNotification = async function() {
+        try {
+            await configuredWebPush.webPush.sendNotification(data.subscription, data.payload, { contentEncoding: data.encoding })
+                .then(function (response) {
+                    console.log('Response: ' + JSON.stringify(response, null, 4));
+                    res.status(201).send(response);
+                })
+                .catch(function (e) {
+                    console.log('Error: ' + JSON.stringify(e, null, 4));
+                    res.status(201).send(e);
+                });
+        } catch (e) {
+            res.status(500).send(e.message);
+        }
+    };
+
+    if (data.delay) {
+        setTimeout(sendNotification, data.delay);
+    } else {
+        sendNotification();
     }
 });
 

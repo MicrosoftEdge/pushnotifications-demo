@@ -54,7 +54,7 @@
                         <div class="guide-col-main--alt">
                             <p>It goes without saying that push notifications expand your reach to your users in a timely, power-efficient and dependable way. Users are re-engaged with customized and relevant content that will have them coming back for more.</p>
                             <p>Inspired by the parallels between basic astrological ideas and push notification architecture, come join us on this journey to better understand how to set up your site – both the front-end and the back-end – to send push messages to a user without needing the browser or app to be opened. You can fork this tutorial itself on <a href="https://github.com/MicrosoftEdge/pushnotifications-demo">GitHub</a> and even set it up locally so that you can play with it.</p>
-                            <p>To see it in action, click the button below and then immediately close this tab (or browser). You should get a notification within 5 seconds after clicking the button below. Don’t worry, when you click the notification, it’ll take you right back here, so you can continue learning about push messages. </p>
+                            <p>To see it in action, click the button below, accept the permission prompt (if you haven’t already), and then immediately close this tab (or browser). You should get a notification within 5 seconds after clicking the button below. Don’t worry, when you click the notification, it’ll take you right back here, so you can continue learning about push messages. </p>
                             <button class="btn--action" id="initiate-push" disabled="disabled">Initiating...</button>
                         </div>
                         <div class="guide-col-side">
@@ -283,6 +283,8 @@ function urlBase64ToUint8Array(base64String) {
     event.waitUntil(clients.openWindow('weather/advisory'));
 }</code></pre>
                         <p>You’re also able to sort through the already open windows and focus one of those, or perhaps even navigate an existing window.</p>
+                        <p>It’s now time to give it a try! The button below will send a message to the application server to send along a push request to the push service’s server so that your machine can get a push notification.</p>
+                        <button class="btn--action" id="initiate-push-2" disabled="disabled">Initiating...</button>
                         <p>As a reminder, you can check out a fully working version of this demo on the <a href="https://github.com/MicrosoftEdge/pushnotifications-demo">GitHub repo</a>.</p>
                     </div>
                 </div>

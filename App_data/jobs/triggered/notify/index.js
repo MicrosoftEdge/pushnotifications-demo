@@ -18,10 +18,16 @@ const init = async function() {
 
     try {
         const triviaFileContents = await readFile('trivia.json');
-        pushMessage = JSON.parse(triviaFileContents).trivia[day % trivia.length];
+        const trivia = JSON.parse(triviaFileContents).trivia;
+        pushMessage = trivia[day % trivia.length];
     } catch (e) {
         console.error(e);
     }
+
+    const pushPayload = JSON.stringify({
+        title: 'Did you know?',
+        message: pushMessage
+    });
 
     try {
         const cursor = Subscription.find().cursor();
@@ -32,7 +38,7 @@ const init = async function() {
                     auth: sub.keys.auth,
                     p256dh: sub.keys.p256dh
                 }
-            }, pushMessage, {contentEncoding: 'aes128gcm'})
+            }, pushPayload, {contentEncoding: 'aes128gcm'})
             .then(function(push) {
                 console.log(push);
             })

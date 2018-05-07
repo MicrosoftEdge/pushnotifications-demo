@@ -1,16 +1,14 @@
-# pushnotifications-demo
+# Web Push Notifications Tutorial
 
-Demo for cross browsers push notifications.
+This is a tutorial and demo for web push notifications that work in modern web browsers.
 
 ## How to use
 
-This demo requires access to a mongodb instance and a few environment variables:
+First, install all Node.js dependencies via `npm install`.
 
-* `DATABASE_CONNECTION_URI`: The connection string to your `mongodb`
-* `VAPID_PUBLIC_KEY`: The public key to share
-* `VAPID_PRIVATE_KEY`: The private key to use
+This demo requires access to a mongodb instance for storing push subscription info to send push updates at some other point in time. It also requires specifying a public and private key for identifying your server to the push service's server. These keys, known as VAPID public/private keys, can be generated and printed to the console when first executing the site. The site can be executed by running `node index.js` which will start a server on port `4000`. You'll need to populate those keys as environment variables and execute `node index.js` again to ensure that push messages can be configured from your server.
 
-If you are using VS Code you can set them in your `launch.json` file as follows:
+If you are using VS Code you can set the environment variables mentioned above in your `launch.json` file as follows:
 
 ```js
 {
@@ -43,12 +41,10 @@ If you are using VS Code you can set them in your `launch.json` file as follows:
 }
 ```
 
-Additionally you can also modify `index.js` and `db/db.js` and set the values there explicitely:
+Alternatively, you can modify `index.js` and `db/db.js` and set the values there explicitly:
 
 ```js
 const databaseConnectionURI = process.env.DATABASE_CONNECTION_URI || '';
 const vapidPublicKey = process.env.VAPID_PUBLIC_KEY || '';
 const vapidPrivateKey = process.env.VAPID_PRIVATE_KEY || '';
 ```
-
-To execute the site just run `node index.js` and a server will start in port `4000`
