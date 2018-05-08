@@ -41,7 +41,7 @@ If you are using VS Code you can set the environment variables mentioned above i
 }
 ```
 
-Alternatively, you can modify `index.js` and `db/db.js` and set the values there explicitly:
+Alternatively, you can modify `configured-web-push.js` and `db/db.js` and set the values there explicitly:
 
 ```js
 const databaseConnectionURI = process.env.DATABASE_CONNECTION_URI || '';
