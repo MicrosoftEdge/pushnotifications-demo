@@ -6,6 +6,8 @@ This is a tutorial and demo for web push notifications that work in modern web b
 
 First, install all Node.js dependencies via `npm install`.
 
+**Note**: You will need the necessary tools to compile binaries for node. If you are on a Windows platform the easiest way is to use the [`windows-build-tools`](https://npmjs.com/package/windows-build-tools) package. 
+
 This demo requires access to a mongodb instance for storing push subscription info to send push updates at some other point in time. It also requires specifying a public and private key for identifying your server to the push service's server. These keys, known as VAPID public/private keys, can be generated and printed to the console when first executing the site. The site can be executed by running `node index.js` which will start a server on port `4000`. You'll need to populate those keys as environment variables and execute `node index.js` again to ensure that push messages can be configured from your server.
 
 If you are using VS Code you can set the environment variables mentioned above in your `launch.json` file as follows:
