@@ -173,7 +173,7 @@ app.get('/api/key', function(req, res) {
     });
 });</code></pre>
                         <p>We’ll also need an endpoint that will allow us to store the subscription details for a user so that we’ll be able to push messages to them from our app’s server.</p>
-<pre><code>app.post('/api/save-subscription, function(req, res) {
+<pre><code>app.post('/api/save-subscription', function(req, res) {
     // save req.body.subscription to a database
 
     res.send('Success');
